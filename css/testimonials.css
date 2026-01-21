@@ -1,0 +1,81 @@
+.nav-container {
+    background-color: #174e09;
+    padding: 0 2.5%;
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: center;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    background-image: url(../img/fire-cloud-space-background.jpg);
+    background-position: center center; /* Add this */
+    background-size: cover; /* Add this */
+    background-repeat: no-repeat; /* Add this */
+    height: 100vh;
+}
+
+nav{
+    width: 95%;
+    min-width: 0;
+    flex-wrap: wrap;
+    height: 105%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 1px solid black;
+    background-color: #7b2d27;
+    align-items: center;
+    color: white;
+    margin: 0 auto;
+}
+
+nav ul{
+    list-style-type: none;
+}
+
+.centralNav li{
+    margin-top: none;
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 2% !important;
+    margin-right: 5%;
+}
+
+.centralNav a{
+    text-decoration: none;
+    color: white;
+}
+
+.centralNav a:hover{
+    text-decoration: underline;
+    background-color: rgba(179, 179, 146, 0.42);
+}
+
+.leftNav{
+    padding-left: 2%;
+}
+
+.centralNav{
+    gap: 2%;
+    width: 30%;
+}
+
+.rightNav {
+    padding-right: 2%;
+}
+
+.rightNav span{
+    border-bottom: 1px solid white;
+
+}
+
+
+h1 {
+    margin-left: 2.5%;
+    font-size: 4em;
+    text-transform: uppercase;
+    color: white;
+}
