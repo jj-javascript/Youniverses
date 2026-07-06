@@ -1,57 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" type="text/css" href="css/blog.css">
-    <title>Our Blog</title>
+    <title>Our Blog — Youniverse</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="prefetch" href="img/optimized/fire-cloud-space-background-1920.webp">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/blog.css">
 </head>
 
-<div class="nav-container">
-    <nav>
-
-        <div class="leftNav">
-            <i class="planet"></i>
-            <span>YOUNIVERSES</span>
-        </div>
-
-        <div class="centralNav">
-            <ul>
-                <li><a href="main.html">Home</a></li>
-                <li><a href="services.html">Book Online</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="testimonials.html">Testimonials</a></li>
-            </ul>
-        </div>
-
-        <div class="rightNav">
-            <span>Search</span>
-            <i class="search"></i>
-        </div>
-    </nav>
-</div>
-
 <body>
+    <div class="nav-container">
+        <nav aria-label="Main navigation">
+            <div class="leftNav">
+                <svg class="nav-icon" aria-hidden="true"><use href="img/icons.svg#planet"></use></svg>
+                <a href="main.html">YOUNIVERSES</a>
+            </div>
+            <div class="centralNav">
+                <ul>
+                    <li><a href="main.html">Home</a></li>
+                    <li><a href="services.html">Book Online</a></li>
+                    <li><a href="blog.html" aria-current="page">Blog</a></li>
+                    <li><a href="testimonials.html">Testimonials</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
 
-    <section class="contentSection">
-    <h1>Our Blog</h1>
-    <section class="blogBoxes">
-        <div class="blogBox">
-            <img src="img/testBlog1.png" alt="">
-            <h3>Navigate Your Journey: Divination Reflections...</h3>
-            <p>Are you on a quest for self-discovery and personal growth? Have you ever considered using astrology and divination tools to navigate...</p>           
-        </div>
-        <div class="blogBox">
-            <img src="img/testBlog2.png" alt="">
-            <h3>Discover your birth chart reflections</h3>
-            <p>Have you ever felt lost or unsure about where your life is headed? Do you wish there was a way to gain a deeper understanding of yourself...</p>           
-        </div>
-        <div class="blogBox">
-            <img src="img/testBlog3.png" alt="">
-            <h3>Unlock Self-Discovery: Astrology Interpretation...</h3>
-            <p>Are you seeking a deeper understanding of yourself and guidance on your life's journey? Löok no further than Youniverses, a platform that...</p>           
-        </div>
-    </section>
-    </section>
+    <div class="desktop-content">
+        <main class="blog-page">
+            <header class="blog-header text-scrim">
+                <h1 class="page-heading">Our Blog</h1>
+                <p class="page-lead">Reflections on astrology, divination, and the work of becoming whole.</p>
+            </header>
+            <section class="blogBoxes" aria-live="polite">
+                <!-- Populated by js/blog.js -->
+            </section>
+        </main>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/cards.js"></script>
+    <script src="js/blog.js"></script>
 </body>
+
 </html>

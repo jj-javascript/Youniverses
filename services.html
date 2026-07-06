@@ -4,81 +4,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css/services.css">
-    <title>Services</title>
+    <title>Book Online — Youniverse</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="prefetch" href="img/optimized/v933-audi-42-a-1920.webp">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/services.css">
 </head>
 
-<div class="nav-container">
-    <nav>
-
-        <div class="leftNav">
-            <i class="planet"></i>
-            <span>YOUNIVERSES</span>
-        </div>
-
-        <div class="centralNav">
-            <ul>
-                <li><a href="main.html">Home</a></li>
-                <li><a href="services.html">Book Online</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="testimonials.html">Testimonials</a></li>
-            </ul>
-        </div>
-
-        <div class="rightNav">
-            <span>Search</span>
-            <i class="search"></i>
-        </div>
-    </nav>
-</div>
-
 <body>
+    <div class="nav-container">
+        <nav aria-label="Main navigation">
+            <div class="leftNav">
+                <svg class="nav-icon" aria-hidden="true"><use href="img/icons.svg#planet"></use></svg>
+                <a href="main.html">YOUNIVERSES</a>
+            </div>
+            <div class="centralNav">
+                <ul>
+                    <li><a href="main.html">Home</a></li>
+                    <li><a href="services.html" aria-current="page">Book Online</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="testimonials.html">Testimonials</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
 
-    <section class="contentSection">
-        <h1>Services</h1>
+    <div class="desktop-content">
+        <main class="services-page">
+            <header class="services-header text-scrim">
+                <h1 class="page-heading">Book Online</h1>
+                <p class="page-lead">
+                    Choose a session that fits where you are. Each offering blends astrology, divination,
+                    and reflection to help you read your own roadmap.
+                </p>
+            </header>
 
-        <div class="infoBox">
-            <div class="outsideBox">
-                <span>Tarot Reading Workshop</span>
-                <button>Book Now</button>
+            <div class="services-grid" id="services-list">
+                <!-- Populated by js/services.js -->
             </div>
-            <div class="innerBox">
-                <!-- Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni, doloremque assumenda. Delectus eius possimus in molestiae reprehenderit rem repudiandae ipsum modi, ex quasi, aliquam soluta nobis, veniam aut vitae nulla! -->
-            </div>
-        </div>
+        </main>
+    </div>
 
-        <div class="infoBox">
-            <div class="outsideBox">
-                <span>Birth Chart Analysis</span>
-                <button>Book Now</button>
-            </div>
-            <div class="innerBox">
-                <!-- Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni, doloremque assumenda. Delectus eius possimus in molestiae reprehenderit rem repudiandae ipsum modi, ex quasi, aliquam soluta nobis, veniam aut vitae nulla! -->
-            </div>
-        </div>
-
-        <div class="infoBox">
-            <div class="outsideBox">
-                <span>Life Coaching Session</span>
-                <button>Book Now</button>
-            </div>
-            <div class="innerBox">
-                <!-- Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni, doloremque assumenda. Delectus eius possimus in molestiae reprehenderit rem repudiandae ipsum modi, ex quasi, aliquam soluta nobis, veniam aut vitae nulla! -->
-            </div>
-        </div>
-
-
-        <div class="infoBox tarotRead">
-            <div class="outsideBox">
-                <span>Tarot Reading</span>
-                <button>Book Now</button>
-            </div>
-            <div class="innerBox">
-                <!-- Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni, doloremque assumenda. Delectus eius possimus in molestiae reprehenderit rem repudiandae ipsum modi, ex quasi, aliquam soluta nobis, veniam aut vitae nulla! -->
-            </div>
-        </div>
-    </section>
-
+    <script src="js/config.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/cards.js"></script>
 </body>
 
 </html>

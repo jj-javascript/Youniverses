@@ -1,37 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" type="text/css" href="css/testimonials.css">
-    <title>Testimonials</title>
+    <title>Testimonials — Youniverse</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="prefetch" href="img/optimized/fire-cloud-space-background-1920.webp">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/testimonials.css">
 </head>
 
-<div class="nav-container">
-    <nav>
-
-        <div class="leftNav">
-            <i class="planet"></i>
-            <span>YOUNIVERSES</span>
-        </div>
-
-        <div class="centralNav">
-            <ul>
-                <li><a href="main.html">Home</a></li>
-                <li><a href="services.html">Book Online</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="testimonials.html">Testimonials</a></li>
-            </ul>
-        </div>
-
-        <div class="rightNav">
-            <span>Search</span>
-            <i class="search"></i>
-        </div>
-    </nav>
-</div>
-
 <body>
-    <h1>Testimonials</h1>
+    <div class="nav-container">
+        <nav aria-label="Main navigation">
+            <div class="leftNav">
+                <svg class="nav-icon" aria-hidden="true"><use href="img/icons.svg#planet"></use></svg>
+                <a href="main.html">YOUNIVERSES</a>
+            </div>
+            <div class="centralNav">
+                <ul>
+                    <li><a href="main.html">Home</a></li>
+                    <li><a href="services.html">Book Online</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="testimonials.html" aria-current="page">Testimonials</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="desktop-content">
+        <main class="testimonials-page">
+            <header class="testimonials-header text-scrim">
+                <h1 class="page-heading">Testimonials</h1>
+                <p class="page-lead">
+                    Voices from clients who mapped their own youniverse. Share yours below — submissions
+                    are reviewed before they appear.
+                </p>
+            </header>
+
+            <div class="testimonials-layout">
+                <section class="testimonials-list-panel text-scrim" aria-labelledby="stories-heading">
+                    <h2 id="stories-heading" class="panel-title">Client Stories</h2>
+                    <div class="testimonials-list" aria-live="polite">
+                        <!-- Populated by js/testimonials.js -->
+                    </div>
+                </section>
+
+                <section class="testimonials-form-panel text-scrim" aria-labelledby="share-heading">
+                    <form class="testimonial-form" action="https://api.web3forms.com/submit" method="POST">
+                        <h2 id="share-heading" class="panel-title">Share Your Experience</h2>
+                        <input type="hidden" name="subject" value="New Youniverse Testimonial">
+                        <div class="form-honeypot" aria-hidden="true">
+                            <label for="botcheck">Leave empty</label>
+                            <input type="checkbox" name="botcheck" id="botcheck" tabindex="-1" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" required maxlength="100" autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="quote">Your Testimonial</label>
+                            <textarea id="quote" name="message" required maxlength="1000" placeholder="What shifted for you in our work together?"></textarea>
+                        </div>
+                        <button type="submit" class="form-submit">Submit Testimonial</button>
+                        <p class="form-status" role="status"></p>
+                    </form>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/cards.js"></script>
+    <script src="js/testimonials.js"></script>
 </body>
+
 </html>

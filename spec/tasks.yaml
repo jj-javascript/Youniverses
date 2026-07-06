@@ -1,0 +1,346 @@
+# spec/tasks.yaml
+# Atomic, independently executable tasks with explicit dependencies.
+# STATUS: proposed (pre-implementation). Do NOT execute code tasks until the
+# Plan & Tech Stack sections are approved. Tasks marked BLOCKED require missing
+# reference assets (see clarification log) before they can be finalized.
+
+meta:
+  project: Youniverse revamp
+  hard_constraint: "Must run on pure static hosting. No backend/server at runtime."
+  pages: [index.html, main.html, services.html, blog.html, testimonials.html]
+  brand_color_nav: "#067BC2"
+  card_palette:
+    background: "#F8F5ED"
+    border: "1px solid #726A53"
+    radius: "8px"
+    base_dimensions: "200px x 275px (scaled to mobile viewport)"
+
+# =========================================================================
+# GROUP A — FOUNDATION / SHARED
+# =========================================================================
+
+tasks:
+
+  A1_typography_tokens:
+    description: >
+      Add Cormorant Garamond (primary/display) + chosen sans-serif (UI/body)
+      via <link> to Google Fonts and define CSS custom properties for the type
+      scale. Extract shared nav/typography rules into a shared stylesheet.
+    files_affected:
+      - css/base.css   # NEW shared file
+      - main.html
+      - services.html
+      - blog.html
+      - testimonials.html
+    instructions:
+      - Create css/base.css holding the *shared* nav rules currently duplicated
+        across main/services/blog/testimonials CSS, plus :root type tokens.
+      - "Define tokens: --font-display:'Cormorant Garamond',serif;
+        --font-ui:'<APPROVED SANS>',sans-serif; a modular type scale; --nav-blue:#067BC2."
+      - Preconnect + preload the two font families in each <head>.
+      - Link css/base.css BEFORE the page-specific stylesheet in every page.
+    constraints:
+      - Do not remove page-specific overrides yet (A2 handles dedupe).
+      - font-display: swap to avoid invisible text.
+    validation_criteria:
+      - Computed font-family on <h1> resolves to Cormorant Garamond on all pages.
+      - Computed font-family on nav/body copy resolves to the approved sans.
+      - No FOIT (text visible during font load).
+    dependencies: [DECISION_sans_serif]
+
+  A2_dedupe_nav_css:
+    description: >
+      Remove the duplicated nav CSS block from services.css, blog.css,
+      testimonials.css, main.css now that it lives in base.css.
+    files_affected: [css/main.css, css/services.css, css/blog.css, css/testimonials.css]
+    instructions:
+      - Delete the copy-pasted .nav-container/nav/.centralNav/.leftNav/.rightNav
+        rules from each page CSS; keep only page-unique rules.
+    constraints:
+      - Visual output must be byte-for-byte equivalent pre/post (except the
+        intentional color/alignment fixes from A3).
+    validation_criteria:
+      - Nav renders identically across all four pages.
+      - No duplicate selector definitions remain across the loaded stylesheets.
+    dependencies: [A1_typography_tokens]
+
+  A3_nav_color_and_alignment:
+    description: >
+      Recolor nav bar + About Me button to #067BC2 and fix the flagged nav
+      alignment/markup bugs WITHOUT restructuring .nav-container/.centralNav/
+      .leftNav/.rightNav.
+    files_affected: [css/base.css, css/main.css, main.html, services.html, blog.html, testimonials.html]
+    instructions:
+      - Set nav (and/or .nav-container) background to var(--nav-blue) #067BC2.
+      - Set .buttonDiv button (About Me) background to #067BC2.
+      - "Fix: nav height:105% -> 100%; invalid 'margin-top:none' -> 0;
+        invalid 'padding-top:none' (subtitle) -> 0."
+      - "Fix: move the <nav>/.nav-container block INSIDE <body> in
+        services.html, blog.html, testimonials.html (currently sits between
+        </head> and <body> — invalid)."
+      - "Fix: unclosed <h2>MY NAME IS KAI!<h2> -> </h2> in main.html."
+      - "Fix: remove no-op inline style='background-size:cover' on the <img> in main.html."
+      - Verify leftNav/centralNav/rightNav sit on one row and are vertically centered.
+    constraints:
+      - Keep existing class names and DOM structure of the nav.
+      - Fix alignment errors only; do not redesign the nav layout.
+    validation_criteria:
+      - Nav background computed color == rgb(6,123,194).
+      - About Me button background computed color == rgb(6,123,194).
+      - Nav items vertically centered, single row, no 5% overflow.
+      - HTML validates (nav inside body, tags balanced).
+    dependencies: [A2_dedupe_nav_css]
+
+  A4_icon_sprite:
+    description: >
+      Replace empty .planet/.search <i> icons (which render nothing) with inline
+      SVG from a single sprite, and consolidate social icons into the same sprite.
+    files_affected: [img/icons.svg, main.html, services.html, blog.html, testimonials.html, css/base.css]
+    instructions:
+      - Create img/icons.svg containing <symbol> defs (planet, search, bluesky,
+        x, linkedin, github).
+      - Replace <i class="planet"></i> / <i class="search"></i> with
+        <svg><use href="img/icons.svg#planet"/></svg> etc.
+      - Style icon size/color via CSS (currentColor).
+    constraints:
+      - No external icon-font CDN (keep it static & self-hosted).
+    validation_criteria:
+      - Planet + search icons are visibly rendered in nav on every page.
+      - Number of icon network requests reduced vs. per-file approach.
+    dependencies: [A3_nav_color_and_alignment]
+
+# =========================================================================
+# GROUP B — PERFORMANCE / ASSETS (see spec/assets.md for exact commands)
+# =========================================================================
+
+  B1_generate_image_derivatives:
+    description: Produce AVIF/WebP/responsive derivatives for all raster assets.
+    files_affected: [img/optimized/*]
+    instructions:
+      - Run the CLI commands documented in spec/assets.md for every ✅/⚠️ asset.
+    constraints: [No runtime processing; all outputs are static files.]
+    validation_criteria:
+      - img/optimized/ contains AVIF+WebP at documented breakpoints for each asset.
+    dependencies: [DECISION_asset_replacements]
+
+  B2_encode_hero_video:
+    description: Re-encode spacestars.mp4, extract poster, add WebM.
+    files_affected: [img/optimized/spacestars-1080.mp4, img/optimized/spacestars-1080.webm, img/optimized/spacestars-poster.jpg]
+    instructions: [Run the ffmpeg commands in spec/assets.md.]
+    constraints: [Strip audio; ≤ ~5MB target; +faststart for streaming.]
+    validation_criteria: [Compressed MP4 < 6MB; poster generated; WebM present.]
+    dependencies: []
+
+  B3_wire_responsive_markup:
+    description: >
+      Swap <img> for <picture> with srcset/sizes + loading=lazy/decoding=async;
+      swap CSS background-image for image-set(); wire the video to poster +
+      preload=none and reconsider mobile autoplay.
+    files_affected: [main.html, blog.html, css/main.css, css/services.css, css/blog.css, css/testimonials.css]
+    instructions:
+      - Replace headshot + blog thumbnails with <picture> (AVIF/WebP/fallback).
+      - Replace background-image URLs with image-set() referencing derivatives.
+      - Add poster + preload="none" to the hero <video>; gate autoplay on
+        (min-width) / prefers-reduced-motion.
+    constraints: [LCP image/poster must NOT be lazy-loaded.]
+    validation_criteria:
+      - Lighthouse: no "properly size images" / "next-gen formats" warnings.
+      - LCP element loads eagerly; below-fold images lazy.
+    dependencies: [B1_generate_image_derivatives, B2_encode_hero_video, A3_nav_color_and_alignment]
+
+  B4_preload_prefetch:
+    description: Add preload (fonts + LCP) and cross-page prefetch hints.
+    files_affected: [main.html, services.html, blog.html, testimonials.html]
+    instructions:
+      - Preload display font + LCP image/poster per page.
+      - Prefetch shared fire-cloud background between blog<->testimonials.
+      - Optionally prefetch likely next page on nav hover (progressive enhancement).
+    constraints: [Do not preload more than the true LCP asset per page.]
+    validation_criteria: [Network waterfall shows fonts/LCP prioritized; no preload warnings.]
+    dependencies: [B3_wire_responsive_markup]
+
+  B5_remove_orphan:
+    description: Delete unused img/bubbleStar2.jpg (31MB, referenced nowhere).
+    files_affected: [img/bubbleStar2.jpg]
+    status: DONE  # deleted with owner approval
+    instructions: [DONE — file removed from repo.]
+    constraints: []
+    validation_criteria: [File absent (confirmed); no broken refs.]
+    dependencies: []
+
+# =========================================================================
+# GROUP C — MOBILE CARD-DECK UI (vanilla JS)  [partially BLOCKED]
+# =========================================================================
+
+  C1_card_deck_scaffold:
+    description: >
+      Build a mobile-only stacked card-deck shell that renders the four pages as
+      cards. Desktop layout is untouched (deck shown only under a mobile breakpoint).
+    files_affected: [css/cards.css, js/cards.js, main.html]
+    instructions:
+      - Add a <section class="cardDeck"> with 4 <article class="card"> (main,
+        services, blog, testimonials) shown only via @media (max-width: ~600px).
+      - Implement fanned depth with nth-last-child scale+translateY+rotate.
+      - Palette: bg #F8F5ED, border 1px solid #726A53, radius 8px, box-shadow;
+        base 200x275 scaled with clamp()/vw for the viewport.
+    constraints:
+      - Vanilla JS only; no framework.
+      - Desktop (>600px) must render existing pages exactly as-is.
+    validation_criteria:
+      - On mobile viewport, 4 cards visible in a fanned stack.
+      - On desktop viewport, deck hidden; original layout intact.
+    dependencies: [DECISION_card_pattern, A3_nav_color_and_alignment]
+
+  C2_card_gestures_loop:
+    description: >
+      Implement swipe gestures + seamless infinite loop (top card animates out
+      and re-inserts at back), per the approved pattern.
+    files_affected: [js/cards.js, css/cards.css]
+    instructions:
+      - Pointer/touch events (pointerdown/move/up) with velocity threshold.
+      - moveCard/swap: animate top card off-screen, re-append to deck, restack.
+      - Maintain a state array as the single source of truth for order.
+      - requestAnimationFrame for the animation loop; respect prefers-reduced-motion.
+    constraints:
+      - Handle interrupted/partial swipes (snap back).
+      - Keyboard + button fallback for accessibility.
+    validation_criteria:
+      - Swiping loops infinitely with no visual gap/jump.
+      - Snap-back on sub-threshold drag; works with mouse, touch, keyboard.
+    dependencies: [C1_card_deck_scaffold]
+
+  C3_card_flip_detail:
+    description: >
+      CANCELLED — owner chose swipe-loop-only. No flip sub-state.
+    status: CANCELLED
+    files_affected: []
+    instructions: [Do not implement.]
+    constraints: []
+    validation_criteria: []
+    dependencies: []
+
+  C4_hero_card_special:
+    description: >
+      Special hero-card treatment modeled on KaiUniverse2.png: zodiac natal-chart
+      wheel motif, thin-serif "_YOUNIVERSES" title + "explore your roadmap within"
+      subtitle, translucent lavender CTA ("SEE YOU IN THE SKY").
+    files_affected: [css/cards.css, js/cards.js]
+    instructions:
+      - Style the main/hero card distinctly from the other three (cosmic bg + wheel motif + lavender CTA).
+      - Reuse existing main.html hero copy so text stays consistent across desktop and mobile.
+    constraints: [Vanilla JS/CSS only; keep desktop hero untouched.]
+    validation_criteria: [Hero card visually matches the KaiUniverse2 direction.]
+    dependencies: [C1_card_deck_scaffold, DECISION_card_aesthetic]
+
+# =========================================================================
+# GROUP D — THIRD-PARTY INTEGRATIONS (no backend)
+# =========================================================================
+
+  D1_blog_integration:
+    description: Populate blog.html from a headless CMS via client-side fetch.
+    files_affected: [blog.html, js/blog.js]
+    service_recommendation:
+      primary: Sanity
+      why: >
+        Free tier, hosted editing UI for the content owner, CORS-enabled GROQ
+        API consumable directly from static JS (no build step), image CDN with
+        on-the-fly formats. Keeps hosting purely static.
+      alternatives:
+        - name: Decap CMS (git-based)
+          tradeoff: Content lives in repo as markdown; requires an SSG + CI rebuild on publish.
+        - name: Contentful
+          tradeoff: Similar to Sanity; generous free tier, slightly less flexible querying.
+        - name: Strapi
+          tradeoff: REJECTED for default path — self-hosted server violates the no-backend constraint.
+      build_step_required: false   # runtime client-side fetch
+      flow: "Owner writes in Sanity Studio -> publish -> blog.html fetches GROQ at load -> renders cards."
+      setup_steps:
+        - Create Sanity project + 'post' schema (title, slug, excerpt, cover image, body, publishedAt).
+        - Add site origin to Sanity CORS allowlist (no token; public read dataset).
+        - Fetch published posts via the query API in js/blog.js and render into .blogBoxes.
+    instructions:
+      - Replace hard-coded .blogBox markup with a template rendered from fetched data.
+      - Cover images come from the CMS image CDN (drop testBlogN placeholders).
+      - Skeleton/loading + empty + error states.
+    constraints:
+      - No secrets in client code (public read dataset only).
+      - Graceful degradation if the API is unreachable.
+    validation_criteria:
+      - New CMS post appears in blog.html without code changes/redeploy.
+      - Error/empty/loading states render correctly.
+    dependencies: [DECISION_integration_style, A3_nav_color_and_alignment]
+
+  D2_testimonials_integration:
+    description: >
+      Client-submitted testimonials; only owner-approved ones auto-populate
+      testimonials.html.
+    files_affected: [testimonials.html, js/testimonials.js]
+    service_recommendation:
+      pattern: "decoupled: form service (intake) + moderated datastore (display)"
+      intake:
+        primary: Web3Forms (or Formspree)
+        why: Static-friendly POST endpoint, spam protection, no backend to run.
+      moderated_store_and_display:
+        option_a:
+          name: Sanity (reuse D1)
+          flow: >
+            Form submission -> Sanity draft testimonial (via Zapier/Make automation
+            or manual entry) -> owner publishes -> testimonials.html fetches only
+            published docs.
+          build_step_required: false
+        option_b:
+          name: Google Sheets (published JSON)
+          flow: >
+            Form -> Sheet row -> owner sets approved=TRUE -> site fetches published
+            sheet JSON and renders approved rows only.
+          build_step_required: false
+          tradeoff: Cheapest/zero-cost; less polished editing; public read of the sheet.
+      recommended: option_a  # consistent editing surface with the blog
+    instructions:
+      - Build the submission form (name, quote, optional avatar/rating) posting to the intake service.
+      - Render only approved/published testimonials into testimonials.html (currently just an <h1>).
+      - Loading/empty/error + form success/error states.
+    constraints:
+      - Never display unapproved submissions.
+      - Client-side validation + honeypot/anti-spam.
+    validation_criteria:
+      - Submitting the form stores a pending item (not shown publicly).
+      - Approving an item makes it appear without code changes.
+    dependencies: [DECISION_integration_style, A3_nav_color_and_alignment]
+
+# =========================================================================
+# GROUP E — QUALITY / TESTING
+# =========================================================================
+
+  E1_cypress_stubs:
+    description: Cross-browser E2E test stubs.
+    files_affected: [cypress/e2e/nav.cy.js, cypress/e2e/cards.cy.js, cypress/e2e/integrations.cy.js, cypress/e2e/responsive.cy.js]
+    instructions:
+      - nav: assert nav + About Me computed color == rgb(6,123,194) on all pages.
+      - cards: simulate swipe, assert infinite loop order + no gap (loop-only; no flip).
+      - integrations: stub CMS/form responses (cy.intercept) and assert data populates blog/testimonials.
+      - responsive: assert deck shown < 600px and hidden/original layout >= 600px.
+    constraints: [Stub all network calls; tests must not depend on live services.]
+    validation_criteria: [Stubs run headless in CI; cover nav color, swipe, loop, data population, layout.]
+    dependencies: [A3_nav_color_and_alignment, C2_card_gestures_loop, D1_blog_integration, D2_testimonials_integration]
+
+# =========================================================================
+# DECISIONS (must be resolved before dependent tasks)
+# =========================================================================
+
+decisions:
+  DECISION_sans_serif:      "RESOLVED -> Montserrat (confirmed by owner). Pairs with Cormorant Garamond display."
+  DECISION_card_pattern:    "RESOLVED -> swipe-LOOP ONLY (moveCard/swap re-insert). No flip."
+  DECISION_card_substates:  "RESOLVED -> NO per-card flip (C3 cancelled)."
+  DECISION_integration_style: "RESOLVED -> hosted headless CMS + client-side fetch (Sanity blog+testimonials, Web3Forms/Formspree intake). Non-tech owner; no build step, no backend."
+  DECISION_asset_replacements: "RESOLVED -> bubbleStar2 DELETED; testImg.png KEPT as labeled placeholder; services bg stays."
+  DECISION_card_aesthetic:  >
+    RESOLVED -> KaiUniverse look (whiter card, ~16-20px radius, no brown border, cosmic navy bg,
+    lavender accent, title top-left + heart top-right) + reference stacking/loop MECHANICS.
+
+# All previously-missing reference assets are now present:
+#   spec/assets/KaiUniverse1.png, KaiUniverse2.png, KaiUniverse3.png
+#   spec/references/Stacked_Cards_UI.txt, CodePen_Card_Flip.txt
+# C4 (hero card) is UNBLOCKED — hero card modeled on KaiUniverse2.png (zodiac wheel, thin serif
+# title, lavender translucent CTA). Card mechanics derive from Stacked_Cards_UI.txt
+# (nth-last-child depth + swap keyframe + moveCard re-insert loop) with optional CodePen flip.

@@ -1,0 +1,186 @@
+<button onclick="$('.card.g').toggleClass('b');console.log('good')">toggle</button>
+<button onclick="$('.card.g').toggle()">hide/show</button>
+<div class="deck">
+  <div class="card b" style="transform:rotateZ(-2deg);top:1px"></div>
+  <div class="card b" style="transform:rotateZ(6deg);top:7px"></div>
+  <div id="flipcard" class="flip-container" onclick="toggle();">
+
+      <div class="card g b"></div>
+    <div class="flipper">
+      <div class="front">
+        <div class="card b"></div>
+        <!-- front content -->
+      </div>
+      <div class="back">
+        <div class="card k">
+          <h4></h4>
+          <div class=""
+        <p>One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections.
+
+        <p>The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. "What's happened to me? " he thought. It wasn't a dream. His room, a proper human room, was now looming around him.
+        </div>
+        <!-- back content -->
+      </div>
+    </div>
+  </div>
+  
+</div>
+<div class="card k" style="float:right;    position: relative; display:none">
+        <p>One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections.
+
+        <p>The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. "What's happened to me? " he thought. It wasn't a dream. His room, a proper human room, was now looming around him.
+        </div>
+
+@import url(https://fonts.googleapis.com/css?family=Ubuntu:400,300,500,700);
+
+body,html{
+  height: 600px;
+  position: relative;
+  font-family: 'Ubuntu', sans-serif;
+}
+.deck{
+  position: absolute;
+  bottom:30%;
+  right:30%;
+  padding:10px;
+  transform:translateZ(0);
+}
+.card.b{
+      background-image:url('https://s-media-cache-ak0.pinimg.com/236x/c1/59/b4/c159b4738dae9c9d8d6417228024de8d.jpg');
+  background-size: 102.5% 101.5%;
+  background-position:center;
+}
+.card.k{
+/*   background-image:url('http://www.madore.org/~david/images/cards/english/king-clubs.png'); */
+  background-size: 101% 102%;
+  background-position:0% -5px;
+  width:400px;
+  height:550px;
+  transform: scale(.5,.5);
+  transform-origin: left top;
+}
+.card.g{
+  background-color:red;
+  z-index:1;
+/*   transform:rotateZ(0) !important; */
+}
+.card {
+    width:200px;
+    height:275px;
+    border-radius:8px;
+  margin-bottom:4px;
+  box-shadow: 0px 3px 5px rgba(0,0,0,.5);
+  position: absolute;
+  top:0px;
+  border:1px solid #726A53;
+  background-color:#F8F5ED;
+  overflow:hidden;
+  padding:8px;
+  box-sizing:border-box;
+  transition: 0.6s;
+  font-size:18px;
+  z-index:0;
+/*   transform-origin: left top; */
+}
+.card p{
+  padding:0px;margin-top:0px;
+}
+
+.flip-container .card{
+  -webkit-font-smoothing: antialiased;
+  transform-origin: right top;
+}
+
+/* entire container, keeps perspective */
+.flip-container {
+	perspective: 1000px;
+  z-index: 2;
+}
+
+.flip-container.flip .flipper {
+	transform: rotateY(180deg) translate(-50%, -35%);
+  z-index:50;
+}
+
+.flip-container.hide .flipper {
+  z-index:-1;
+/*   transition: 0.3s; */
+/*   transition-delay: 0.3s; */
+  animation: animationFrames linear .55s;
+  animation-iteration-count: 1;
+}
+.flip-container.hide .card{
+  z-index:-1;
+}
+.flip-container .b{
+    box-shadow:none;
+}
+
+.flip-container.flip .front .card {
+  transform:scale(2,2);
+}
+.flip-container.flip .back .card {
+  transform:scale(1,1);
+}
+
+.flipper, .front, .back {
+	width: 200px;
+  height:275px;
+}
+
+/* flip speed goes here */
+.flipper {
+	transition: 0.6s;
+	transform-style: preserve-3d;
+	position: relative;
+  transform-origin: left center;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+  -webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/* front pane, placed above back */
+.front {
+/* 	z-index: 2; */
+	/* for firefox 31 */
+	transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+	transform: rotateY(180deg);
+}
+
+@keyframes animationFrames{
+  0%{ transform: translateX(0) rotateY(180deg);z-index:1; }
+  50%{ transform: translateX(-200%) rotateY(0deg) rotateZ(15deg) scale(.7,.7);z-index:-10;}
+  100%{ transform: translateX(0) rotateY(0deg) scale(.9,.9);z-index:-10;}
+}
+
+specialcard = $(".card.g")
+specialcard.hide()
+
+//this.classList.toggle('flip');
+
+function toggle() {
+  if ($("#flipcard").hasClass("flip")) {
+    hide()
+  } else {
+    specialcard.show();
+    document.querySelector("#flipcard").classList.toggle("flip");
+  }
+}
+
+function hide(){
+  $("#flipcard").addClass("hide").removeClass("flip");
+    setTimeout(function() {
+      $("#flipcard").removeClass("hide");
+      specialcard.hide();
+    }, 900)
+}
