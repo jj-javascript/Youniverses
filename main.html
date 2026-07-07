@@ -6,6 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Welcome to Youniverse!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Photo by HI! ESTUDIO on Unsplash -->
+    <link rel="icon" type="image/png" href="img/k3.png">
+    <link rel="apple-touch-icon" href="img/k3.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#067BC2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap">
@@ -44,7 +49,10 @@
             </div>
             <div class="subtitle">
                 <h2>Explore your roadmap within</h2>
-                <a class="btn-primary hero-cta" href="services.html">Book a Session</a>
+                <div class="hero-cta-group">
+                    <a class="about-btn hero-cta" href="#about">About Me</a>
+                    <a class="btn-primary hero-cta hero-book-link" href="services.html">Book a Session</a>
+                </div>
             </div>
         </section>
 
@@ -58,7 +66,7 @@
                 </div>
                 <div class="bioDiv text-scrim">
                     <p>
-                        I am a heart(ist) and start guide strategist. My goal is to support you in navigating your universe.
+                        I am a heart(ist) and star guide strategist. My goal is to support you in navigating your universe.
                         My offerings incorporate astrology, divination, and reflection practices as a guide to become your
                         whole authentic self.
                     </p>
@@ -66,29 +74,11 @@
                 <div class="socialIconDiv">
                     <ul class="s-intro__social social-list">
                         <li>
-                            <a href="https://bsky.app/profile/jj-javascript.bsky.social" aria-label="BlueSky">
-                                <svg aria-hidden="true"><use href="img/icons.svg#bluesky"></use></svg>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://x.com/jj_javascript18" aria-label="X/Twitter">
-                                <svg aria-hidden="true"><use href="img/icons.svg#x-twitter"></use></svg>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.linkedin.com/in/justinjimenezdev/" aria-label="LinkedIn">
-                                <svg aria-hidden="true"><use href="img/icons.svg#linkedin"></use></svg>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://github.com/jj-javascript" aria-label="GitHub">
-                                <svg aria-hidden="true"><use href="img/icons.svg#github"></use></svg>
+                            <a href="https://instagram.com/YOUR_HANDLE" data-instagram-link aria-label="Instagram">
+                                <svg aria-hidden="true"><use href="img/icons.svg#instagram"></use></svg>
                             </a>
                         </li>
                     </ul>
-                </div>
-                <div class="buttonDiv">
-                    <a href="#about" class="about-btn">About Me</a>
                 </div>
             </div>
             <div class="infoSectionImg">
@@ -102,6 +92,7 @@
     </div>
 
     <script src="js/config.js"></script>
+    <script src="js/nav.js"></script>
     <script src="js/cards.js"></script>
 </body>
 

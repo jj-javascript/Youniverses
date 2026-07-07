@@ -1,5 +1,8 @@
+/* Celestial Ledger — Services (design-shotgun variant A) */
+
 .services-page {
     min-height: 100vh;
+    background-color: var(--color-cosmic-navy);
     background-image: url(../img/v933-audi-42-a.jpg);
     background-image: image-set(
         url(../img/optimized/v933-audi-42-a-1920.avif) type('image/avif'),
@@ -9,73 +12,101 @@
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
-    padding: 2rem 1.25rem 3rem;
+    padding: 2rem 1.5rem 3rem;
+}
+
+.services-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
 .services-header {
-    max-width: 720px;
-    margin: 0 auto 2rem;
-    padding: 1.5rem 1.75rem;
+    background: rgba(10, 14, 42, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.services-header .page-heading {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    margin-bottom: 0.75rem;
+}
+
+.services-header .page-lead {
+    margin-bottom: 0;
+    max-width: 36rem;
+    opacity: 0.9;
 }
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.25rem;
-    max-width: 1100px;
-    margin: 0 auto;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 .service-card {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 1.25rem;
+    gap: 1rem;
     padding: 1.5rem;
+    background: rgba(10, 14, 42, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
     min-height: 100%;
 }
 
+.service-card__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
 .service-card__title {
+    font-family: var(--font-display);
     font-size: 1.75rem;
-    margin: 0 0 0.75rem;
+    font-weight: 600;
+    margin: 0;
     color: var(--text-on-dark);
     line-height: 1.2;
 }
 
 .service-card__desc {
     font-family: var(--font-ui);
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.9);
-    margin: 0 0 1rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.88);
+    margin: 0;
+    flex: 1;
 }
 
 .service-card__meta {
-    list-style: none;
-    margin: 0;
-    padding: 0;
     font-family: var(--font-ui);
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.85);
-}
-
-.service-card__meta li + li {
-    margin-top: 0.35rem;
-}
-
-.service-card__label {
-    font-weight: 600;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
-    font-size: 0.7rem;
-    opacity: 0.75;
-    margin-right: 0.35rem;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0.25rem 0 0;
 }
 
 .service-card__cta {
     align-self: flex-start;
     width: 100%;
     text-align: center;
+    border-radius: 6px;
+}
+
+@media (min-width: 480px) {
+    .service-card__cta {
+        width: auto;
+    }
 }
 
 .services-state {
@@ -85,14 +116,11 @@
     font-family: var(--font-ui);
     padding: 2rem;
     font-style: italic;
+    background: rgba(10, 14, 42, 0.78);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .services-state--loading {
     opacity: 0.7;
-}
-
-@media (min-width: 768px) {
-    .service-card__cta {
-        width: auto;
-    }
 }

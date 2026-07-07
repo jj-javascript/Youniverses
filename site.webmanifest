@@ -1,0 +1,17 @@
+{
+  "name": "Youniverse",
+  "short_name": "Youniverse",
+  "description": "Astrology, divination, and reflection with Kai",
+  "start_url": "main.html",
+  "display": "standalone",
+  "background_color": "#0a0e2a",
+  "theme_color": "#067BC2",
+  "icons": [
+    {
+      "src": "img/NewK.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

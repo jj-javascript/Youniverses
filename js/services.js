@@ -50,8 +50,13 @@
     function renderService(service) {
         var link = bookingLink();
         var targetAttr = link.external ? ' target="_blank" rel="noopener noreferrer"' : '';
+        var metaParts = [];
+        if (service.duration) metaParts.push(service.duration);
+        if (service.price) metaParts.push(service.price);
+        var metaLine = metaParts.join(' · ');
+
         return (
-            '<article class="service-card text-scrim">' +
+            '<article class="service-card">' +
             '<div class="service-card__body">' +
             '<h2 class="service-card__title">' +
             escapeHtml(service.title) +
@@ -59,18 +64,9 @@
             '<p class="service-card__desc">' +
             escapeHtml(service.description || '') +
             '</p>' +
-            '<ul class="service-card__meta">' +
-            (service.duration
-                ? '<li><span class="service-card__label">Duration</span> ' +
-                  escapeHtml(service.duration) +
-                  '</li>'
+            (metaLine
+                ? '<p class="service-card__meta">' + escapeHtml(metaLine) + '</p>'
                 : '') +
-            (service.price
-                ? '<li><span class="service-card__label">Investment</span> ' +
-                  escapeHtml(service.price) +
-                  '</li>'
-                : '') +
-            '</ul>' +
             '</div>' +
             '<a class="book-btn service-card__cta" href="' +
             escapeHtml(link.href) +

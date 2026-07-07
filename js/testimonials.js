@@ -7,16 +7,21 @@
         return div.innerHTML;
     }
 
-    function renderTestimonial(item) {
+    function renderStory(item) {
+        var author = escapeHtml(item.name);
+        if (item.service) {
+            author += ', ' + escapeHtml(item.service);
+        }
+
         return (
-            '<blockquote class="testimonial-item">' +
+            '<article class="testimonial-story">' +
             '<p class="testimonial-quote">"' +
             escapeHtml(item.quote) +
             '"</p>' +
             '<footer class="testimonial-author">— ' +
-            escapeHtml(item.name) +
+            author +
             '</footer>' +
-            '</blockquote>'
+            '</article>'
         );
     }
 
@@ -34,7 +39,8 @@
             );
             return;
         }
-        container.innerHTML = items.map(renderTestimonial).join('');
+
+        container.innerHTML = items.map(renderStory).join('');
     }
 
     function loadTestimonials() {
@@ -45,7 +51,7 @@
 
         if (typeof SANITY_CONFIGURED !== 'undefined' && SANITY_CONFIGURED) {
             var query =
-                '*[_type == "testimonial" && approved == true] | order(_createdAt desc){name, quote}';
+                '*[_type == "testimonial" && approved == true] | order(_createdAt desc){name, quote, service}';
 
             sanityQuery(query)
                 .then(function (data) {
@@ -61,7 +67,7 @@
         } else {
             showState(
                 container,
-                'Testimonials will appear here once configured. Submit yours below!',
+                'Testimonials will appear here once configured. Submit yours below.',
                 'testimonial-state--empty'
             );
         }

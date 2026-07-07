@@ -58,3 +58,62 @@
 - **FINDING-008:** Removed missing `spacestars-1080.*` video sources; hero uses existing `img/spacestars.mp4`.
 - **FINDING-011:** Mobile card deck uses `100svh`/`100dvh` flex centering; reduced card/stack sizing; hint in flow.
 - **Touch targets:** Nav links, social icons, and buttons bumped to 44px minimum via `--touch-min` token.
+
+## Design finalization (2026-07-06)
+
+- **Services — Celestial Ledger (variant A):** 2×2 card grid on cosmic background, frosted hero panel, uppercase meta lines, brand-blue Book Now CTAs. Implemented in `services.html`, `css/services.css`, `js/services.js`.
+- **Testimonials — Mirror Split + Letter Press palette:** Split layout (stories left, form right); cream `#f4f0e8`, ink `#2c2416`, gold `#c9a84c`; EB Garamond + Source Sans 3; featured quote carousel with dot nav when multiple testimonials load from Sanity. Implemented in `testimonials.html`, `css/testimonials.css`, `js/testimonials.js`.
+
+## UI Remediation Pass (2026-07-06)
+
+### Task 1 — Mobile UI audit
+| Viewport | Finding | Fix |
+|----------|---------|-----|
+| 360×812 | Hero card title `_YOUNIVERSES` clipped by heart button + narrow width | Removed heart button (Task 2); added `clamp()` title sizing + `overflow-wrap` |
+| 360×667 | Card deck fits without scroll | No change needed — verified |
+| All mobile | No horizontal overflow on any page | Verified via browse JS checks |
+| Blog grid (narrow desktop) | `minmax(280px)` could force overflow below 280px content width | Changed to `minmax(min(100%, 280px), 1fr)` |
+
+### Task 2 — Card styling
+- **Papery-white token:** `--card-paper: #F8F5ED` in `css/base.css` — warm off-white matching the card-deck reference palette; improves text contrast vs previous `#f8f8f8`.
+- **Full page content on card face:** Expanded card body copy in `js/cards.js`; removed all like/heart buttons.
+- **Translucence fix:** Front card (`:nth-last-child(1)`) stays `opacity: 1` with no brightness filter; background cards use reduced opacity only (0.55–0.85) with scale/offset for depth. Removed `filter: brightness()` that dimmed readable text during swipe.
+
+### Task 3 — Nav alignment
+- Switched `nav` to 3-column CSS grid (`1fr auto 1fr`) so `.centralNav` links center on the full nav bar, balanced against the YOUNIVERSES brand column.
+
+### Task 4 — Hero button order
+- Hero CTAs reordered: **About Me** (`#about`) first, **Book a Session** (`bookingUrl`) second in `.hero-cta-group`.
+- Duplicate About Me button removed from bio section.
+- `SITE_CONFIG.heroButtons` documents order in `js/config.js`; `initHeroButtons()` wires booking URL.
+
+### Task 5 — Social links
+- Removed BlueSky, X, LinkedIn, GitHub from `main.html`.
+- Added Instagram icon to `img/icons.svg`; single link via `SITE_CONFIG.instagramUrl` placeholder.
+- Touch target: 44px via existing `.social-list a` rules.
+
+### Task 6 — Favicon
+- `NewK.png` favicon + apple-touch-icon on all pages; `site.webmanifest` for home-screen shortcut.
+- Attribution comment included exactly: `<!-- Photo by HI! ESTUDIO on Unsplash -->`
+- **Kai approval item:** `NewK.png` is 2.2 MB — recommend generating a 32×32/180×180 optimized icon set.
+
+### Task 7 — Blog article preview
+- Created `blog-preview.html` — realistic article layout with scrim panel, cover image, body typography, blockquote.
+- CMS field mapping panel shows how Sanity fields render.
+- Linked from `blog.html` header.
+- Full Sanity documentation in `docs/SANITY-SETUP.md`.
+
+### Task 8 — Sanity integration (hosted-only test version)
+- Frontend fetch already wired in `js/blog.js`, `js/services.js`, `js/testimonials.js`.
+- `docs/SANITY-SETUP.md` — schema definitions, CORS steps, day-to-day Kai guide, connect-your-account steps.
+- Placeholder `YOUR_SANITY_PROJECT_ID` until Kai provides credentials.
+
+### Task 9 — Web3Forms integration
+- Form wired in `js/testimonials.js` + `testimonials.html`.
+- `docs/WEB3FORMS-SETUP.md` — access key setup, moderation workflow, dashboard usage.
+- Placeholder `YOUR_WEB3FORMS_ACCESS_KEY` until Kai provides credentials.
+
+### Task 10 — Nav gap diagnosis
+- **Root cause:** `.nav-reveal-zone` was in document flow (20px block) pushing `.nav-container` below the viewport top when auto-hide nav opened — visible gap above nav bar.
+- **Fix:** Made `.nav-reveal-zone` `position: absolute` within `.nav-shell` so the nav bar sits flush at `y: 0` when revealed; reveal zone overlays top edge for hover detection only.
+- **Reasoning:** Preserves auto-hide design intent without sacrificing flush nav alignment.

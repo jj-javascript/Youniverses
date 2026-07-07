@@ -6,7 +6,7 @@
             id: 'home',
             href: 'main.html',
             title: '_YOUNIVERSES',
-            body: 'Explore your roadmap within',
+            body: 'Explore your roadmap within — astrology, divination, and reflection for your whole authentic self.',
             cta: 'SEE YOU IN THE SKY',
             hero: true,
         },
@@ -14,21 +14,21 @@
             id: 'services',
             href: 'services.html',
             title: 'Book Online',
-            body: 'Tarot readings, birth chart analysis, life coaching, and more.',
+            body: 'Tarot readings, birth chart analysis, life coaching, and workshops. Each session blends astrology and divination to help you read your own roadmap.',
             cta: 'View Services',
         },
         {
             id: 'blog',
             href: 'blog.html',
             title: 'Our Blog',
-            body: 'Divination reflections, birth chart insights, and self-discovery guides.',
+            body: 'Divination reflections, birth chart insights, and self-discovery guides — written in Kai\'s voice for seekers navigating their youniverse.',
             cta: 'Read Blog',
         },
         {
             id: 'testimonials',
             href: 'testimonials.html',
             title: 'Testimonials',
-            body: 'Stories from clients who explored their youniverse.',
+            body: 'Stories from clients who explored their youniverse. Share yours — every submission is reviewed before publishing.',
             cta: 'Read Stories',
         },
     ];
@@ -50,14 +50,6 @@
         return PAGE_MAP[path] || 'home';
     }
 
-    function heartButton() {
-        return (
-            '<button type="button" class="cardDeck__card-heart" aria-label="Favorite" tabindex="-1">' +
-            '<svg aria-hidden="true"><use href="img/icons.svg#heart"></use></svg>' +
-            '</button>'
-        );
-    }
-
     function buildCard(data) {
         var heroClass = data.hero ? ' cardDeck__card--hero' : '';
         return (
@@ -72,10 +64,9 @@
             '<h2 class="cardDeck__card-title">' +
             data.title +
             '</h2>' +
-            heartButton() +
             '</div>' +
             '<div class="cardDeck__card-body">' +
-            '<p>' +
+            '<p class="cardDeck__card-text">' +
             data.body +
             '</p>' +
             '<a class="cardDeck__card-link" href="' +
@@ -111,8 +102,9 @@
         section.appendChild(hint);
 
         var nav = document.querySelector('.nav-container');
-        if (nav && nav.nextSibling) {
-            nav.parentNode.insertBefore(section, nav.nextSibling);
+        var anchor = nav ? nav.closest('.nav-shell') || nav : null;
+        if (anchor && anchor.parentNode) {
+            anchor.parentNode.insertBefore(section, anchor.nextSibling);
         } else {
             document.body.insertBefore(section, document.body.firstChild);
         }

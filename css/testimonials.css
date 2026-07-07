@@ -1,117 +1,151 @@
+/* Letter Press layout (Variant B) */
+
+:root {
+    --lp-cream: #f4f0e8;
+    --lp-ink: #2c2416;
+    --lp-muted: #5c4f3a;
+    --lp-author: #7a6b52;
+    --lp-border: #c9b99a;
+    --lp-divider: #ddd5c4;
+    --lp-dark: #2c2416;
+    --lp-dark-field: #3d3428;
+    --lp-dark-border: #5c4f3a;
+    --lp-gold: #c9a84c;
+}
+
+.page-testimonials {
+    background: var(--lp-cream);
+    color: var(--lp-ink);
+    font-family: 'Source Sans 3', var(--font-ui);
+}
+
 .testimonials-page {
-    min-height: 100vh;
-    background-image: url(../img/fire-cloud-space-background.jpg);
-    background-image: image-set(
-        url(../img/optimized/fire-cloud-space-background-1920.avif) type('image/avif'),
-        url(../img/optimized/fire-cloud-space-background-1920.webp) type('image/webp'),
-        url(../img/fire-cloud-space-background.jpg) type('image/jpeg')
-    );
-    background-position: center center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    padding: 2rem 1.25rem 3rem;
+    min-height: calc(100vh - var(--touch-min, 44px));
+    background: var(--lp-cream);
+    color: var(--lp-ink);
 }
 
-.testimonials-header {
-    max-width: 720px;
-    margin: 0 auto 2rem;
-    padding: 1.5rem 1.75rem;
-}
-
-.testimonials-layout {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    max-width: 1100px;
+.lp-wrap {
+    max-width: 680px;
     margin: 0 auto;
+    padding: 3rem 1.5rem;
 }
 
-@media (min-width: 900px) {
-    .testimonials-layout {
-        grid-template-columns: 1.1fr 0.9fr;
-        align-items: start;
-    }
+.lp-wrap .page-heading {
+    font-family: 'EB Garamond', var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 600;
+    color: var(--lp-ink);
+    text-transform: none;
+    margin: 0 0 0.5rem;
+    line-height: 1.05;
 }
 
-.testimonials-list-panel,
-.testimonials-form-panel {
-    padding: 1.5rem 1.75rem;
-}
-
-.panel-title {
-    font-size: 1.5rem;
-    color: var(--text-on-dark);
-    margin: 0 0 1.25rem;
+.testimonials-lead {
+    font-family: 'Source Sans 3', var(--font-ui);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--lp-muted);
+    margin: 0 0 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--lp-border);
 }
 
 .testimonials-list {
     min-height: 120px;
 }
 
-.testimonial-item {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid var(--panel-border);
-    border-radius: 8px;
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1rem;
-    color: white;
+.testimonial-story {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--lp-divider);
 }
 
-.testimonial-quote {
-    font-family: var(--font-display);
-    font-size: 1.2rem;
+.testimonial-story:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.testimonial-story .testimonial-quote {
+    font-family: 'EB Garamond', var(--font-display);
+    font-size: 1.5rem;
     font-style: italic;
+    line-height: 1.55;
+    color: var(--lp-ink);
     margin: 0 0 0.75rem;
-    line-height: 1.5;
 }
 
-.testimonial-author {
-    font-family: var(--font-ui);
-    font-size: 0.9rem;
-    opacity: 0.85;
+.testimonial-story .testimonial-author {
+    font-family: 'Source Sans 3', var(--font-ui);
+    font-size: 0.85rem;
+    color: var(--lp-author);
 }
 
 .testimonial-state {
-    color: rgba(255, 255, 255, 0.85);
-    font-family: var(--font-ui);
-    text-align: center;
-    padding: 1.5rem 0.5rem;
+    font-family: 'Source Sans 3', var(--font-ui);
     font-style: italic;
+    color: var(--lp-muted);
     line-height: 1.6;
+    padding: 1rem 0;
+}
+
+.form-band {
+    margin-top: 3rem;
+    background: var(--lp-dark);
+    color: var(--lp-cream);
+    padding: 2rem;
+    border-radius: 4px;
 }
 
 .testimonial-form {
     margin: 0;
 }
 
+.testimonial-form .panel-title {
+    font-family: 'EB Garamond', var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--lp-cream);
+    margin: 0 0 1rem;
+    text-transform: none;
+}
+
 .form-group {
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .form-group label {
     display: block;
-    color: white;
-    font-family: var(--font-ui);
-    font-size: 0.85rem;
-    margin-bottom: 0.35rem;
+    font-family: 'Source Sans 3', var(--font-ui);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--lp-cream);
+    margin-bottom: 0.25rem;
 }
 
 .form-group input,
 .form-group textarea {
     width: 100%;
-    padding: 0.75rem;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 4px;
-    background: rgba(0, 0, 0, 0.25);
-    color: white;
-    font-family: var(--font-ui);
+    padding: 0.65rem;
+    border: 1px solid var(--lp-dark-border);
+    border-radius: 2px;
+    background: var(--lp-dark-field);
+    color: var(--lp-cream);
+    font-family: 'Source Sans 3', var(--font-ui);
     font-size: 0.95rem;
     min-height: var(--touch-min);
 }
 
 .form-group textarea {
-    min-height: 140px;
+    min-height: 5rem;
     resize: vertical;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: rgba(244, 240, 232, 0.45);
 }
 
 .form-submit {
@@ -119,24 +153,25 @@
     align-items: center;
     justify-content: center;
     min-height: var(--touch-min);
-    background: var(--nav-blue);
-    color: white;
+    background: var(--lp-gold);
+    color: var(--lp-ink);
     border: none;
-    padding: 0.65rem 1.5rem;
-    border-radius: 4px;
-    font-family: var(--font-ui);
-    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 2px;
+    font-family: 'Source Sans 3', var(--font-ui);
+    font-weight: 700;
     cursor: pointer;
     width: 100%;
+    margin-top: 0.5rem;
 }
 
 .form-submit:hover {
-    background: var(--nav-blue-hover);
+    background: #b8963f;
 }
 
 .form-status {
     margin-top: 1rem;
-    font-family: var(--font-ui);
+    font-family: 'Source Sans 3', var(--font-ui);
     font-size: 0.9rem;
 }
 
@@ -149,7 +184,7 @@
 }
 
 .form-status--loading {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(244, 240, 232, 0.7);
 }
 
 .form-honeypot {

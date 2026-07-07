@@ -4,6 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Photo by HI! ESTUDIO on Unsplash -->
+    <link rel="icon" type="image/png" href="img/k3.png">
+    <link rel="apple-touch-icon" href="img/k3.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#067BC2">
     <title>Book Online — Youniverse</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,21 +39,24 @@
 
     <div class="desktop-content">
         <main class="services-page">
-            <header class="services-header text-scrim">
-                <h1 class="page-heading">Book Online</h1>
-                <p class="page-lead">
-                    Choose a session that fits where you are. Each offering blends astrology, divination,
-                    and reflection to help you read your own roadmap.
-                </p>
-            </header>
+            <div class="services-wrap">
+                <header class="services-header">
+                    <h1 class="page-heading">Book Online</h1>
+                    <p class="page-lead">
+                        Choose a session that fits where you are. Each offering blends astrology, divination,
+                        and reflection to help you read your own roadmap.
+                    </p>
+                </header>
 
-            <div class="services-grid" id="services-list">
-                <!-- Populated by js/services.js -->
+                <div class="services-grid" id="services-list">
+                    <!-- Populated by js/services.js -->
+                </div>
             </div>
         </main>
     </div>
 
     <script src="js/config.js"></script>
+    <script src="js/nav.js"></script>
     <script src="js/services.js"></script>
     <script src="js/cards.js"></script>
 </body>

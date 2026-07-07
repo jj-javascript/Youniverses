@@ -5,15 +5,24 @@
  */
 const SITE_CONFIG = {
     sanity: {
-        projectId: 'YOUR_SANITY_PROJECT_ID',
-        dataset: 'production',
+        projectId: 'janrh8g1ID',
+        dataset: 'production01',
         apiVersion: '2024-01-01',
     },
     web3forms: {
         accessKey: 'YOUR_WEB3FORMS_ACCESS_KEY',
+        /** Email where Web3Forms delivers submissions (configured in web3forms.com dashboard). */
+        recipientEmail: 'YOUR_EMAIL@example.com',
     },
     /** Replace with your Calendly, Acuity, or booking page URL before production. */
     bookingUrl: 'https://calendly.com/YOUR_USERNAME',
+    /** Hero CTA order on main.html — About Me first, Book a Session second. */
+    heroButtons: [
+        { label: 'About Me', href: '#about', type: 'scroll' },
+        { label: 'Book a Session', hrefKey: 'bookingUrl', type: 'external' },
+    ],
+    /** Only Instagram is shown site-wide. Replace handle before production. */
+    instagramUrl: 'https://instagram.com/YOUR_HANDLE',
 };
 
 const SANITY_CONFIGURED =
@@ -56,4 +65,36 @@ function sanityImageUrl(ref, width) {
         width +
         '&auto=format'
     );
+}
+
+function initHeroButtons() {
+    var bookLink = document.querySelector('.hero-book-link');
+    if (bookLink) {
+        var url = SITE_CONFIG.bookingUrl || '#';
+        var configured = url.indexOf('YOUR_USERNAME') === -1;
+        bookLink.href = configured ? url : 'services.html';
+        if (configured) {
+            bookLink.target = '_blank';
+            bookLink.rel = 'noopener noreferrer';
+        }
+    }
+}
+
+function initSocialLinks() {
+    var instagramLinks = document.querySelectorAll('[data-instagram-link]');
+    var url = SITE_CONFIG.instagramUrl || 'https://instagram.com/YOUR_HANDLE';
+    instagramLinks.forEach(function (link) {
+        link.href = url;
+    });
+}
+
+function initSiteConfig() {
+    initHeroButtons();
+    initSocialLinks();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSiteConfig);
+} else {
+    initSiteConfig();
 }

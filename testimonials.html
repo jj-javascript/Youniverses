@@ -4,17 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Photo by HI! ESTUDIO on Unsplash -->
+    <link rel="icon" type="image/png" href="img/k3.png">
+    <link rel="apple-touch-icon" href="img/k3.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#067BC2">
     <title>Testimonials — Youniverse</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="prefetch" href="img/optimized/fire-cloud-space-background-1920.webp">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/cards.css">
     <link rel="stylesheet" href="css/testimonials.css">
 </head>
 
-<body>
+<body class="page-testimonials">
     <div class="nav-container">
         <nav aria-label="Main navigation">
             <div class="leftNav">
@@ -34,47 +38,40 @@
 
     <div class="desktop-content">
         <main class="testimonials-page">
-            <header class="testimonials-header text-scrim">
-                <h1 class="page-heading">Testimonials</h1>
-                <p class="page-lead">
-                    Voices from clients who mapped their own youniverse. Share yours below — submissions
-                    are reviewed before they appear.
+            <div class="lp-wrap">
+                <h1 id="testimonials-heading" class="page-heading">Testimonials</h1>
+                <p class="testimonials-lead">
+                    Stories from the work — submitted and reviewed before publishing.
                 </p>
-            </header>
-
-            <div class="testimonials-layout">
-                <section class="testimonials-list-panel text-scrim" aria-labelledby="stories-heading">
-                    <h2 id="stories-heading" class="panel-title">Client Stories</h2>
-                    <div class="testimonials-list" aria-live="polite">
-                        <!-- Populated by js/testimonials.js -->
-                    </div>
-                </section>
-
-                <section class="testimonials-form-panel text-scrim" aria-labelledby="share-heading">
+                <div class="testimonials-list" aria-live="polite">
+                    <!-- Populated by js/testimonials.js -->
+                </div>
+                <div class="form-band" aria-labelledby="share-heading">
                     <form class="testimonial-form" action="https://api.web3forms.com/submit" method="POST">
-                        <h2 id="share-heading" class="panel-title">Share Your Experience</h2>
+                        <h2 id="share-heading" class="panel-title">Share Yours</h2>
                         <input type="hidden" name="subject" value="New Youniverse Testimonial">
                         <div class="form-honeypot" aria-hidden="true">
                             <label for="botcheck">Leave empty</label>
                             <input type="checkbox" name="botcheck" id="botcheck" tabindex="-1" autocomplete="off">
                         </div>
                         <div class="form-group">
-                            <label for="name">Your Name</label>
+                            <label for="name">Name</label>
                             <input type="text" id="name" name="name" required maxlength="100" autocomplete="name">
                         </div>
                         <div class="form-group">
-                            <label for="quote">Your Testimonial</label>
-                            <textarea id="quote" name="message" required maxlength="1000" placeholder="What shifted for you in our work together?"></textarea>
+                            <label for="quote">Testimonial</label>
+                            <textarea id="quote" name="message" required maxlength="1000" rows="3"></textarea>
                         </div>
-                        <button type="submit" class="form-submit">Submit Testimonial</button>
+                        <button type="submit" class="form-submit">Submit for Review</button>
                         <p class="form-status" role="status"></p>
                     </form>
-                </section>
+                </div>
             </div>
         </main>
     </div>
 
     <script src="js/config.js"></script>
+    <script src="js/nav.js"></script>
     <script src="js/cards.js"></script>
     <script src="js/testimonials.js"></script>
 </body>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Preview — Youniverse Blog</title>
+    <!-- Photo by HI! ESTUDIO on Unsplash -->
+    <link rel="icon" type="image/png" href="img/k3.png">
+    <link rel="apple-touch-icon" href="img/k3.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#067BC2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/blog.css">
+</head>
+
+<body>
+    <div class="nav-container">
+        <nav aria-label="Main navigation">
+            <div class="leftNav">
+                <svg class="nav-icon" aria-hidden="true"><use href="img/icons.svg#planet"></use></svg>
+                <a href="main.html">YOUNIVERSES</a>
+            </div>
+            <div class="centralNav">
+                <ul>
+                    <li><a href="main.html">Home</a></li>
+                    <li><a href="services.html">Book Online</a></li>
+                    <li><a href="blog.html" aria-current="page">Blog</a></li>
+                    <li><a href="testimonials.html">Testimonials</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <main class="blog-page blog-article-page">
+        <article class="blog-article text-scrim">
+            <header class="blog-article__header">
+                <p class="blog-article__meta">Published March 12, 2026 · 6 min read</p>
+                <h1 class="blog-article__title">Reading the cards when the path forks</h1>
+                <p class="blog-article__excerpt">Tarot is not about predicting a fixed future. It is about naming the crossroads you are already standing in — and hearing what your intuition already knows.</p>
+            </header>
+
+            <figure class="blog-article__cover">
+                <img src="img/optimized/testBlog1-480.webp" alt="Tarot spread on a dark cloth with candlelight" width="720" height="405" loading="eager" decoding="async">
+            </figure>
+
+            <div class="blog-article__body">
+                <p>When someone sits across from me and asks, “What is going to happen?” I gently redirect. Tarot reads the terrain you are walking now — the weather, the fork in the road, the part of you that already knows which way leans true.</p>
+                <p>In a session, we name what is moving. We look at what you are avoiding because it feels too honest. The cards do not sentence you to a fate; they mirror the conversation your inner guide is already trying to have.</p>
+                <h2>What a spread actually offers</h2>
+                <p>A three-card spread might hold past pattern, present tension, and the quality of energy asking to be integrated. That is different from fortune-telling. It is reflection with structure — a way to make intuition legible enough to act on.</p>
+                <blockquote>“The card does not decide for you. It helps you hear yourself decide.”</blockquote>
+                <p>If you are standing at a fork, the most useful question is rarely “Which path is correct?” It is closer to: “What do I need to honor in myself before I choose?” That is the work this blog — and these sessions — are here to support.</p>
+            </div>
+        </article>
+
+        <aside class="blog-cms-map text-scrim" aria-labelledby="cms-map-heading">
+            <h2 id="cms-map-heading" class="blog-cms-map__title">How this maps from Sanity CMS</h2>
+            <dl class="blog-cms-map__list">
+                <div><dt>title</dt><dd>Article headline → <code>.blog-article__title</code></dd></div>
+                <div><dt>excerpt</dt><dd>Short summary → <code>.blog-article__excerpt</code> and blog index cards</dd></div>
+                <div><dt>publishedAt</dt><dd>Publish date → <code>.blog-article__meta</code> (formatted for visitors)</dd></div>
+                <div><dt>coverImage</dt><dd>Hero image asset → <code>.blog-article__cover img</code> via <code>sanityImageUrl()</code></dd></div>
+                <div><dt>body</dt><dd>Portable Text / rich content → <code>.blog-article__body</code> paragraphs &amp; headings</dd></div>
+                <div><dt>slug</dt><dd>URL path for individual article pages (future route)</dd></div>
+            </dl>
+            <p class="blog-cms-map__note">This page is a static preview. Live articles use the same typography, scrim panel, and image treatment shown here.</p>
+            <a class="book-btn" href="blog.html">Back to Blog</a>
+        </aside>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/nav.js"></script>
+</body>
+
+</html>
