@@ -117,3 +117,42 @@
 - **Root cause:** `.nav-reveal-zone` was in document flow (20px block) pushing `.nav-container` below the viewport top when auto-hide nav opened — visible gap above nav bar.
 - **Fix:** Made `.nav-reveal-zone` `position: absolute` within `.nav-shell` so the nav bar sits flush at `y: 0` when revealed; reveal zone overlays top edge for hover detection only.
 - **Reasoning:** Preserves auto-hide design intent without sacrificing flush nav alignment.
+
+## Mobile Content Parity Pass (2026-07-08)
+
+**Design-Shotgun concept selected:** Concept A — Photo top-banner (`.gstack/mobile-parity/CONCEPT-SELECTION.md`)
+
+**Rationale:** `testImg` renders clearly at 360–428px without competing with body text; full papery-white `--card-paper` background preserves the opacity-only depth stack (no `filter: brightness()`); top-banner layout scales predictably with scrollable copy below.
+
+### Remediation log
+
+| Viewport | Finding | Fix | File(s) changed |
+|----------|---------|-----|-----------------|
+| 360×812 | Home card has no `testImg` photo | Added responsive `<picture>` banner (Concept A) to home card via `buildImageMarkup()` | `js/cards.js`, `css/cards.css` |
+| 390×812 | Home card has no `testImg` photo | Same — AVIF/WebP/PNG srcset renders at all mobile widths | `js/cards.js`, `css/cards.css` |
+| 414×812 | Home card has no `testImg` photo | Same — photo visible, not clipped or overflowed | `js/cards.js`, `css/cards.css` |
+| 428×812 | Home card has no `testImg` photo | Same — verified `naturalWidth > 0` at all target viewports | `js/cards.js`, `css/cards.css` |
+| 360–428 | Hero card used dark cosmic gradient, not papery-white | Removed dark `--hero` override; home card uses `--card-paper: #F8F5ED` | `css/cards.css` |
+| 360–428 | Card body truncated to 4 lines (`-webkit-line-clamp`) | Removed line-clamp; made `.cardDeck__card-body` scrollable with `overflow-y: auto` | `css/cards.css` |
+| 360–428 | Blog posts hidden on mobile (`.desktop-content` suppressed) | Added in-deck blog list overlay with all posts from shared `YouniverseBlog.fetchPosts()` | `js/cards.js`, `js/blog.js`, `css/cards.css` |
+| 360–428 | No tap-to-open article viewer on mobile | Blog card CTA/tap opens overlay; post tap renders `.blog-article` layout matching `blog-preview.html` | `js/cards.js`, `js/blog.js`, `css/cards.css` |
+| 360–428 | Blog card CTA navigated to `blog.html` (re-showed deck, no posts) | Blog CTA and card tap wired to `data-action="blog-overlay"` instead of page navigation | `js/cards.js` |
+| 360–428 | `blog.js` not loaded on non-blog pages (overlay had no data) | Added `blog.js` + `blog.css` to `main.html`, `services.html`, `testimonials.html`; fixed script order on `blog.html` | `main.html`, `services.html`, `testimonials.html`, `blog.html` |
+| 360–428 | Fallback posts lacked article body content | Added `body`, `publishedAt`, `readMinutes` to `FALLBACK_POSTS`; exposed `window.YouniverseBlog` API | `js/blog.js` |
+| 360–428 | Services/Testimonials full content still deck-only summaries | Acknowledged — out of scope for this pass; deck summary cards + CTAs route correctly to target pages | — |
+| 360–428 | Nav hidden on mobile (by design) | No change — card deck remains sole mobile navigation per architecture | — |
+| 360–428 | Post-fix viewport sweep | Re-screenshotted all pages at 360/390/414/428; zero horizontal overflow detected | `.gstack/mobile-parity/screenshots/post-fix/` |
+
+### Files modified
+- `js/cards.js` — image support, Concept A home card, blog overlay (list + article), routing fix
+- `js/blog.js` — shared post loader, article renderer, `YouniverseBlog` global
+- `css/cards.css` — photo banner, papery-white hero, scrollable body, overlay styles
+- `main.html`, `services.html`, `testimonials.html`, `blog.html` — `blog.js`/`blog.css` wiring
+
+### Audit artifacts
+- Gap report: `.gstack/mobile-parity/GAP-REPORT.md`
+- Concept selection: `.gstack/mobile-parity/CONCEPT-SELECTION.md`
+- Pre-fix screenshots: `.gstack/mobile-parity/screenshots/`
+- Post-fix screenshots: `.gstack/mobile-parity/screenshots/post-fix/`
+- Verification: `.gstack/mobile-parity/post-fix-audit.json` (`pass: true`)
+

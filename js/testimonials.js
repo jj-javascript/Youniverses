@@ -43,34 +43,44 @@
         container.innerHTML = items.map(renderStory).join('');
     }
 
+    function fetchTestimonials() {
+        if (typeof SANITY_CONFIGURED !== 'undefined' && SANITY_CONFIGURED) {
+            var query =
+                '*[_type == "testimonial" && approved == true] | order(_createdAt desc){name, quote, service}';
+
+            return sanityQuery(query)
+                .then(function (data) {
+                    var items = data.result || [];
+                    window.YouniverseTestimonials.cache = items;
+                    return items;
+                })
+                .catch(function () {
+                    window.YouniverseTestimonials.cache = [];
+                    return [];
+                });
+        }
+
+        window.YouniverseTestimonials.cache = [];
+        return Promise.resolve([]);
+    }
+
     function loadTestimonials() {
         var container = document.querySelector('.testimonials-list');
         if (!container) return;
 
         showState(container, 'Loading testimonials…', 'testimonial-state--loading');
 
-        if (typeof SANITY_CONFIGURED !== 'undefined' && SANITY_CONFIGURED) {
-            var query =
-                '*[_type == "testimonial" && approved == true] | order(_createdAt desc){name, quote, service}';
-
-            sanityQuery(query)
-                .then(function (data) {
-                    renderList(container, data.result || []);
-                })
-                .catch(function () {
-                    showState(
-                        container,
-                        'Unable to load testimonials right now. Please try again later.',
-                        'testimonial-state--error'
-                    );
-                });
-        } else {
-            showState(
-                container,
-                'Testimonials will appear here once configured. Submit yours below.',
-                'testimonial-state--empty'
-            );
-        }
+        fetchTestimonials()
+            .then(function (items) {
+                renderList(container, items);
+            })
+            .catch(function () {
+                showState(
+                    container,
+                    'Unable to load testimonials right now. Please try again later.',
+                    'testimonial-state--error'
+                );
+            });
     }
 
     function bindForm() {
@@ -128,6 +138,12 @@
                 });
         });
     }
+
+    window.YouniverseTestimonials = {
+        cache: [],
+        fetch: fetchTestimonials,
+        escapeHtml: escapeHtml,
+    };
 
     function init() {
         loadTestimonials();
