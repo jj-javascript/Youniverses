@@ -457,6 +457,23 @@
         section.className = 'cardDeck';
         section.setAttribute('aria-label', 'Youniverse pages');
 
+        var bg = document.createElement('video');
+        bg.className = 'cardDeck__bg';
+        bg.autoplay = true;
+        bg.loop = true;
+        bg.muted = true;
+        bg.playsInline = true;
+        bg.setAttribute('playsinline', '');
+        bg.setAttribute('muted', '');
+        bg.setAttribute('aria-hidden', 'true');
+        bg.setAttribute('tabindex', '-1');
+        bg.preload = 'auto';
+        var bgSrc = document.createElement('source');
+        bgSrc.src = 'img/spacestars.mp4';
+        bgSrc.type = 'video/mp4';
+        bg.appendChild(bgSrc);
+        section.appendChild(bg);
+
         var stack = document.createElement('div');
         stack.className = 'cardDeck__stack';
         stack.setAttribute('role', 'list');
