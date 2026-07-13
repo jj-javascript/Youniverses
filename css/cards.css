@@ -371,6 +371,21 @@
     font-size: 0.92rem;
 }
 
+.cardDeck__overlay-content .blog-article__body h2,
+.cardDeck__overlay-content .blog-article__body h3,
+.cardDeck__overlay-content .blog-article__body h4 {
+    color: #fff;
+}
+
+.cardDeck__overlay-content .blog-article__body ul,
+.cardDeck__overlay-content .blog-article__body ol {
+    margin-left: 1rem;
+}
+
+.cardDeck__overlay-content .blog-article__body a {
+    color: #9fd4ff;
+}
+
 body.cardDeck-overlay-open .cardDeck__stack {
     pointer-events: none;
 }

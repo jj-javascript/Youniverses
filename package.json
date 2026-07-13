@@ -5,6 +5,7 @@
   "scripts": {
     "optimize": "node scripts/optimize-assets.mjs",
     "optimize:video": "node scripts/optimize-video.mjs",
+    "test:blog": "node scripts/test-blog-renderer.mjs",
     "test:e2e": "cypress run",
     "test:e2e:open": "cypress open"
   },

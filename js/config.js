@@ -5,7 +5,7 @@
  */
 const SITE_CONFIG = {
     sanity: {
-        projectId: 'janrh8g1ID',
+        projectId: 'janrh8g1',
         dataset: 'production01',
         apiVersion: '2024-01-01',
     },
