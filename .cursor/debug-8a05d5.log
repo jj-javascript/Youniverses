@@ -1,0 +1,6 @@
+{"sessionId":"8a05d5","runId":"run1","hypothesisId":"H2/H3","location":"testimonials.js:131","message":"Web3Forms fetch/parse rejected","data":{"error":"Failed to fetch"},"timestamp":1784230018535}
+{"sessionId":"8a05d5","runId":"run1","hypothesisId":"H1-H4","location":"testimonials.js:140","message":"submitTestimonial rejected (error shown to user)","data":{"error":"Failed to fetch"},"timestamp":1784230018535}
+{"sessionId":"8a05d5","runId":"run1","hypothesisId":"H4","location":"testimonials.js:98","message":"Sanity function response","data":{"ok":true,"status":200,"success":true},"timestamp":1784230019450}
+{"sessionId":"8a05d5","runId":"run1","hypothesisId":"H1","location":"testimonials.js:129","message":"Web3Forms response","data":{"success":true,"message":"Form submitted successfully!"},"timestamp":1784239452139}
+{"sessionId":"8a05d5","runId":"run1","hypothesisId":"H4","location":"testimonials.js:98","message":"Sanity function response","data":{"ok":true,"status":200,"success":true},"timestamp":1784239452669}
+{"sessionId":"8a05d5","runId":"run1","hypothesisId":"H1","location":"testimonials.js:134","message":"Promise.all resolved (both legs)","data":{"w3success":true,"w3message":"Form submitted successfully!"},"timestamp":1784239452669}

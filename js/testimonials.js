@@ -96,6 +96,9 @@
             }),
         }).then(function (res) {
             return res.json().then(function (data) {
+                // #region agent log
+                fetch('http://127.0.0.1:7285/ingest/03fcad85-44a8-42f1-85e5-933424e51aaf',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'8a05d5'},body:JSON.stringify({sessionId:'8a05d5',runId:'run1',hypothesisId:'H4',location:'testimonials.js:98',message:'Sanity function response',data:{ok:res.ok,status:res.status,error:data&&data.error,success:data&&data.success},timestamp:Date.now()})}).catch(function(){});
+                // #endregion
                 if (!res.ok) {
                     throw new Error(data.error || 'Sanity submit failed');
                 }
@@ -128,14 +131,32 @@
                 body: formData,
             }).then(function (res) {
                 return res.json();
+            }).then(function (w3) {
+                // #region agent log
+                fetch('http://127.0.0.1:7285/ingest/03fcad85-44a8-42f1-85e5-933424e51aaf',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'8a05d5'},body:JSON.stringify({sessionId:'8a05d5',runId:'run1',hypothesisId:'H1',location:'testimonials.js:129',message:'Web3Forms response',data:{success:w3&&w3.success,message:w3&&w3.message},timestamp:Date.now()})}).catch(function(){});
+                // #endregion
+                return w3;
+            }).catch(function (e) {
+                // #region agent log
+                fetch('http://127.0.0.1:7285/ingest/03fcad85-44a8-42f1-85e5-933424e51aaf',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'8a05d5'},body:JSON.stringify({sessionId:'8a05d5',runId:'run1',hypothesisId:'H2/H3',location:'testimonials.js:131',message:'Web3Forms fetch/parse rejected',data:{error:String(e&&e.message||e)},timestamp:Date.now()})}).catch(function(){});
+                // #endregion
+                throw e;
             }),
             submitToSanity(name, message),
         ]).then(function (results) {
             var web3formsData = results[0];
+            // #region agent log
+            fetch('http://127.0.0.1:7285/ingest/03fcad85-44a8-42f1-85e5-933424e51aaf',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'8a05d5'},body:JSON.stringify({sessionId:'8a05d5',runId:'run1',hypothesisId:'H1',location:'testimonials.js:134',message:'Promise.all resolved (both legs)',data:{w3success:web3formsData&&web3formsData.success,w3message:web3formsData&&web3formsData.message},timestamp:Date.now()})}).catch(function(){});
+            // #endregion
             if (!web3formsData.success) {
                 throw new Error(web3formsData.message || 'Submission failed');
             }
             return results;
+        }).catch(function (err) {
+            // #region agent log
+            fetch('http://127.0.0.1:7285/ingest/03fcad85-44a8-42f1-85e5-933424e51aaf',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'8a05d5'},body:JSON.stringify({sessionId:'8a05d5',runId:'run1',hypothesisId:'H1-H4',location:'testimonials.js:140',message:'submitTestimonial rejected (error shown to user)',data:{error:String(err&&err.message||err)},timestamp:Date.now()})}).catch(function(){});
+            // #endregion
+            throw err;
         });
     }
 
