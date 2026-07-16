@@ -31,6 +31,20 @@ export const testimonial = defineType({
       initialValue: false,
       validation: (rule) => rule.required(),
     }),
+    defineField({
+      name: 'submittedAt',
+      title: 'Submitted At',
+      type: 'datetime',
+      description: 'When the testimonial was submitted via the website form.',
+      readOnly: true,
+    }),
+    defineField({
+      name: 'source',
+      title: 'Source',
+      type: 'string',
+      description: 'How this testimonial was created (e.g. web3forms, manual).',
+      readOnly: true,
+    }),
   ],
   preview: {
     select: {

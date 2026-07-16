@@ -7,14 +7,14 @@ describe('Navigation', function () {
   ];
 
   pages.forEach(function (page) {
-    it('nav bar uses #067BC2 on ' + page.path, function () {
+    it('nav bar uses #534AB7 on ' + page.path, function () {
       cy.visit(page.path);
-      cy.get('.nav-container').should('have.css', 'background-color', 'rgb(6, 123, 194)');
+      cy.get('.nav-container').should('have.css', 'background-color', 'rgb(83, 74, 183)');
     });
   });
 
-  it('About Me button uses #067BC2 on main', function () {
+  it('About Me button uses #534AB7 on main', function () {
     cy.visit('/main.html');
-    cy.get('.about-btn').should('have.css', 'background-color', 'rgb(6, 123, 194)');
+    cy.get('.about-btn').should('have.css', 'background-color', 'rgb(83, 74, 183)');
   });
 });

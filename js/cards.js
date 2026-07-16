@@ -9,6 +9,7 @@
             body:
                 'Explore your roadmap within — astrology, divination, and reflection for your whole authentic self.\n\nI am Kai, a heart(ist) and star guide strategist. My goal is to support you in navigating your universe. My offerings incorporate astrology, divination, and reflection practices as a guide to become your whole authentic self.',
             cta: 'SEE YOU IN THE SKY',
+            ctaHref: 'https://calendly.com/youniverses-kl/30min',
             hero: true,
             image: {
                 alt: 'Kai - headshot placeholder',
@@ -52,28 +53,28 @@
             meta: '60 min · From $85',
             description:
                 'A one-on-one spread to name what is moving in your life now and where the thread leads next.',
-            bookingUrl: '',
+            bookingUrl: 'https://calendly.com/youniverses-kl/30min',
         },
         {
             title: 'Birth Chart Analysis',
             meta: '90 min · From $120',
             description:
                 'Your natal map read as a living pattern — strengths, edges, and timing worth paying attention to.',
-            bookingUrl: '',
+            bookingUrl: 'https://calendly.com/youniverses-kl/30min',
         },
         {
             title: 'Life Coaching Session',
             meta: '60 min · From $95',
             description:
                 'Grounded conversation with astrology and divination as mirrors — clarity for the choice in front of you.',
-            bookingUrl: '',
+            bookingUrl: 'https://calendly.com/youniverses-kl/30min',
         },
         {
             title: 'Tarot Reading Workshop',
             meta: '2 hr · From $65',
             description:
                 'Learn to read for yourself and others in a small-group setting with guided practice spreads.',
-            bookingUrl: '',
+            bookingUrl: 'https://calendly.com/youniverses-kl/30min',
         },
     ];
 
@@ -146,8 +147,9 @@
             data.body +
             '</p>' +
             '<a class="cardDeck__card-link" href="' +
-            data.href +
+            (data.ctaHref || data.href) +
             '"' +
+            (data.ctaHref ? ' target="_blank" rel="noopener noreferrer"' : '') +
             (data.action ? ' data-action="' + data.action + '"' : '') +
             '>' +
             data.cta +
@@ -241,6 +243,14 @@
     function handleOverlayBack() {
         if (overlayState === 'article') {
             renderBlogList();
+            return;
+        }
+        if (overlayState === 'testimonial-form' || overlayState === 'testimonial-confirm') {
+            var cached =
+                window.YouniverseTestimonials && window.YouniverseTestimonials.cache
+                    ? window.YouniverseTestimonials.cache
+                    : [];
+            renderTestimonialsModal(cached);
             return;
         }
         closeOverlay();
@@ -355,7 +365,7 @@
                     ? '<a class="cardDeck__modal-item-cta" href="' +
                       option.bookingUrl +
                       '" target="_blank" rel="noopener noreferrer">Book Now</a>'
-                    : '<a class="cardDeck__modal-item-cta cardDeck__modal-item-cta--pending" href="#" data-booking-slot aria-disabled="true">Booking soon</a>';
+                    : '<a class="cardDeck__modal-item-cta cardDeck__modal-item-cta--pending" href="#" data-booking-slot aria-disabled="true">Book Now</a>';
 
                 return (
                     '<article class="cardDeck__modal-item">' +
@@ -375,38 +385,169 @@
         });
     }
 
+    function getTestimonialsEscapeHtml() {
+        return window.YouniverseTestimonials && window.YouniverseTestimonials.escapeHtml
+            ? window.YouniverseTestimonials.escapeHtml
+            : function (str) {
+                  return String(str);
+              };
+    }
+
+    function renderTestimonialStoryItem(item, escapeHtml) {
+        var author = escapeHtml(item.name);
+        if (item.service) {
+            author += ', ' + escapeHtml(item.service);
+        }
+
+        return (
+            '<article class="cardDeck__modal-item">' +
+            '<p class="cardDeck__modal-item-quote">\u201C' +
+            escapeHtml(item.quote) +
+            '\u201D</p>' +
+            '<p class="cardDeck__modal-item-meta">\u2014 ' +
+            author +
+            '</p>' +
+            '</article>'
+        );
+    }
+
     function renderTestimonialsModal(items) {
-        var escapeHtml =
-            window.YouniverseTestimonials && window.YouniverseTestimonials.escapeHtml
-                ? window.YouniverseTestimonials.escapeHtml
-                : function (str) {
-                      return String(str);
-                  };
+        var escapeHtml = getTestimonialsEscapeHtml();
 
-        renderListModal({
-            state: 'testimonials',
-            title: 'Testimonials',
-            lead: 'Stories from clients exploring their youniverse.',
-            items: items,
-            empty: 'No testimonials yet. Be the first to share your experience!',
-            renderItem: function (item) {
-                var author = escapeHtml(item.name);
-                if (item.service) {
-                    author += ', ' + escapeHtml(item.service);
+        overlayState = 'testimonials';
+        overlayBackBtn.textContent = 'Back to cards';
+        setPanelTheme(true);
+
+        var header =
+            '<header class="cardDeck__overlay-header">' +
+            '<h2 class="cardDeck__overlay-title">Testimonials</h2>' +
+            '<p class="cardDeck__overlay-lead">Stories from clients exploring their youniverse.</p>' +
+            '</header>';
+
+        var shareBtn =
+            '<button type="button" class="cardDeck__testimonial-share-btn">+ Share your story</button>';
+
+        var listBody = items.length
+            ? '<div class="cardDeck__modal-list">' +
+              items.map(function (item) {
+                  return renderTestimonialStoryItem(item, escapeHtml);
+              }).join('') +
+              '</div>'
+            : '<p class="cardDeck__overlay-state">No testimonials yet. Be the first to share your experience!</p>';
+
+        overlayContentEl.innerHTML = header + shareBtn + listBody;
+        overlayContentEl.scrollTop = 0;
+        setOverlayOpen(true);
+
+        var shareTrigger = overlayContentEl.querySelector('.cardDeck__testimonial-share-btn');
+        if (shareTrigger) {
+            shareTrigger.addEventListener('click', renderTestimonialForm);
+        }
+    }
+
+    function renderTestimonialForm() {
+        overlayState = 'testimonial-form';
+        overlayBackBtn.textContent = 'Back to stories';
+        setPanelTheme(true);
+
+        overlayContentEl.innerHTML =
+            '<header class="cardDeck__overlay-header">' +
+            '<h2 class="cardDeck__overlay-title">Share Yours</h2>' +
+            '<p class="cardDeck__overlay-lead">Every submission is reviewed before publishing.</p>' +
+            '</header>' +
+            '<form class="cardDeck__testimonial-form" novalidate>' +
+            '<div class="cardDeck__form-group">' +
+            '<label for="cardDeck-testimonial-name">Name</label>' +
+            '<input type="text" id="cardDeck-testimonial-name" name="name" required maxlength="100" autocomplete="name">' +
+            '</div>' +
+            '<div class="cardDeck__form-group">' +
+            '<label for="cardDeck-testimonial-quote">Testimonial</label>' +
+            '<textarea id="cardDeck-testimonial-quote" name="message" required maxlength="1000" rows="4"></textarea>' +
+            '</div>' +
+            '<button type="submit" class="cardDeck__form-submit">Submit for Review</button>' +
+            '<p class="cardDeck__form-status" role="status"></p>' +
+            '</form>';
+
+        overlayContentEl.scrollTop = 0;
+
+        var form = overlayContentEl.querySelector('.cardDeck__testimonial-form');
+        if (!form) return;
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            var status = form.querySelector('.cardDeck__form-status');
+            var nameInput = form.querySelector('#cardDeck-testimonial-name');
+            var quoteInput = form.querySelector('#cardDeck-testimonial-quote');
+            var name = nameInput ? nameInput.value.trim() : '';
+            var message = quoteInput ? quoteInput.value.trim() : '';
+
+            if (!name || !message) {
+                if (status) {
+                    status.textContent = 'Please enter your name and testimonial.';
+                    status.className = 'cardDeck__form-status cardDeck__form-status--error';
                 }
+                return;
+            }
 
-                return (
-                    '<article class="cardDeck__modal-item">' +
-                    '<p class="cardDeck__modal-item-quote">\u201C' +
-                    escapeHtml(item.quote) +
-                    '\u201D</p>' +
-                    '<p class="cardDeck__modal-item-meta">\u2014 ' +
-                    author +
-                    '</p>' +
-                    '</article>'
-                );
-            },
+            if (!window.YouniverseTestimonials || !window.YouniverseTestimonials.submit) {
+                if (status) {
+                    status.textContent = 'Submission is not available right now. Please try again.';
+                    status.className = 'cardDeck__form-status cardDeck__form-status--error';
+                }
+                return;
+            }
+
+            if (status) {
+                status.textContent = 'Sending\u2026';
+                status.className = 'cardDeck__form-status cardDeck__form-status--loading';
+            }
+
+            window.YouniverseTestimonials.submit(name, message)
+                .then(function () {
+                    renderTestimonialConfirm(name);
+                })
+                .catch(function (err) {
+                    if (status) {
+                        status.textContent =
+                            err && err.message && err.message.indexOf('configured') !== -1
+                                ? err.message
+                                : 'Something went wrong. Please try again later.';
+                        status.className = 'cardDeck__form-status cardDeck__form-status--error';
+                    }
+                });
         });
+    }
+
+    function renderTestimonialConfirm(name) {
+        var escapeHtml = getTestimonialsEscapeHtml();
+
+        overlayState = 'testimonial-confirm';
+        overlayBackBtn.textContent = 'Back to stories';
+        setPanelTheme(true);
+
+        overlayContentEl.innerHTML =
+            '<div class="cardDeck__confirm-card">' +
+            '<div class="cardDeck__confirm-check" aria-hidden="true">\u2713</div>' +
+            '<h3 class="cardDeck__confirm-title">Submitted for review</h3>' +
+            '<p class="cardDeck__confirm-lead">Thank you, ' +
+            escapeHtml(name) +
+            '. Your testimonial is pending review and will appear once approved.</p>' +
+            '<button type="button" class="cardDeck__confirm-back">Back to stories</button>' +
+            '</div>';
+
+        overlayContentEl.scrollTop = 0;
+
+        var backBtn = overlayContentEl.querySelector('.cardDeck__confirm-back');
+        if (backBtn) {
+            backBtn.addEventListener('click', function () {
+                var cached =
+                    window.YouniverseTestimonials && window.YouniverseTestimonials.cache
+                        ? window.YouniverseTestimonials.cache
+                        : [];
+                renderTestimonialsModal(cached);
+            });
+        }
     }
 
     function openTestimonialsModal(e) {

@@ -2,6 +2,7 @@
     'use strict';
 
     function initAutoHideNav() {
+        return; // Disable auto-hide — nav is always visible
         if (window.matchMedia('(max-width: 600px)').matches) return;
         if (!window.matchMedia('(hover: hover)').matches) return;
 

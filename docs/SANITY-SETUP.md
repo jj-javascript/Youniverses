@@ -178,6 +178,8 @@ Create these document types in the Studio with **exact field names** (the fronte
 | `quote` | text | yes | Testimonial text |
 | `service` | string | optional | e.g. `Tarot Reading` |
 | `approved` | boolean | yes | **Must be `true` to appear on site** |
+| `submittedAt` | datetime | optional | Set by Web3Forms automation; when the visitor submitted |
+| `source` | string | optional | Set by automation (e.g. `web3forms`) or left empty for manual entries |
 
 **Site query** ([`js/testimonials.js`](../js/testimonials.js)):
 
@@ -185,7 +187,7 @@ Create these document types in the Studio with **exact field names** (the fronte
 *[_type == "testimonial" && approved == true] | order(_createdAt desc){name, quote, service}
 ```
 
-User submissions via the website form go to **Web3Forms email** — they do **not** auto-create Sanity entries. Kai manually adds approved testimonials in Sanity.
+User submissions via the website form are delivered by **Web3Forms** (email + optional webhook). With the automation in [`docs/TESTIMONIAL-AUTOMATION.md`](TESTIMONIAL-AUTOMATION.md), submissions also create **draft** Sanity documents with `approved: false` for webmaster review. Without the automation, Kai manually adds approved testimonials from the email.
 
 ---
 
@@ -232,10 +234,11 @@ If using a different Sanity project than the one in `js/config.js`:
 Same flow — create or edit a **Service** document. Changes reflect on Book Online automatically.
 
 ### Approve a testimonial for the site
-1. Create a **Testimonial** document in Sanity.
-2. Paste the quote and name from the Web3Forms email.
-3. Set **Approved** to `true`.
-4. Publish. It appears on the Testimonials page.
+1. Open the **Testimonial** draft in Sanity (created by automation or manually).
+2. Review the quote and name.
+3. Optionally set **Service** (e.g. `Tarot Reading`).
+4. Set **Approved** to `true`.
+5. Publish. It appears on the Testimonials page.
 
 ### Hide a testimonial
 Set **Approved** to `false` or delete the document.

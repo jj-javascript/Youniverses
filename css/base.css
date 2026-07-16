@@ -3,8 +3,8 @@
 :root {
     --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
     --font-ui: 'Montserrat', system-ui, -apple-system, sans-serif;
-    --nav-blue: #067BC2;
-    --nav-blue-hover: #056aad;
+    --nav-blue: #534AB7;
+    --nav-blue-hover: #473fa0;
     --color-lavender: rgba(180, 160, 220, 0.55);
     --color-cosmic-navy: #0a0e2a;
     --text-on-dark: #ffffff;
@@ -39,6 +39,14 @@ h1, h2, h3 {
     padding: 0 1.25rem;
     width: 100%;
     box-sizing: border-box;
+}
+
+@media (min-width: 601px) {
+    .nav-container {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
 }
 
 @media (min-width: 601px) and (hover: hover) {

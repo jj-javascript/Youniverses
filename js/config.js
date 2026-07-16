@@ -10,19 +10,21 @@ const SITE_CONFIG = {
         apiVersion: '2024-01-01',
     },
     web3forms: {
-        accessKey: 'YOUR_WEB3FORMS_ACCESS_KEY',
+        accessKey: 'c794eac2-7adc-49ce-a68c-0ce17045ae05',
         /** Email where Web3Forms delivers submissions (configured in web3forms.com dashboard). */
         recipientEmail: 'YOUR_EMAIL@example.com',
     },
+    /** Netlify function route for Sanity draft creation (dual submit with Web3Forms). */
+    testimonialSubmitUrl: '/api/testimonial-submit',
     /** Replace with your Calendly, Acuity, or booking page URL before production. */
-    bookingUrl: 'https://calendly.com/YOUR_USERNAME',
+    bookingUrl: 'https://calendly.com/youniverses-kl/30min',
     /** Hero CTA order on main.html — About Me first, Book a Session second. */
     heroButtons: [
         { label: 'About Me', href: '#about', type: 'scroll' },
         { label: 'Book a Session', hrefKey: 'bookingUrl', type: 'external' },
     ],
     /** Only Instagram is shown site-wide. Replace handle before production. */
-    instagramUrl: 'https://instagram.com/YOUR_HANDLE',
+    instagramUrl: 'https://www.instagram.com/_youniverses/',
 };
 
 const SANITY_CONFIGURED =

@@ -253,6 +253,10 @@
     padding: 0;
 }
 
+.cardDeck__overlay-panel.text-scrim {
+    background-color: #9c4e1a;
+}
+
 .cardDeck__overlay-back {
     display: inline-flex;
     align-items: center;
@@ -479,6 +483,156 @@ body.cardDeck-overlay-open .cardDeck__stack {
     color: #5c5340;
     opacity: 1;
     pointer-events: none;
+}
+
+/* Testimonials overlay — share CTA, form, confirmation */
+.cardDeck__testimonial-share-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: var(--touch-min);
+    margin-bottom: 0.75rem;
+    padding: 0.45rem 0.65rem;
+    border: none;
+    border-radius: 6px;
+    background: var(--color-lavender);
+    color: #2a1f4a;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    text-align: center;
+}
+
+.cardDeck__testimonial-form {
+    margin: 0;
+}
+
+.cardDeck__form-group {
+    margin-bottom: 0.75rem;
+}
+
+.cardDeck__form-group label {
+    display: block;
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #5c5340;
+    margin-bottom: 0.25rem;
+}
+
+.cardDeck__form-group input,
+.cardDeck__form-group textarea {
+    width: 100%;
+    padding: 0.65rem;
+    border: 1px solid #726A53;
+    border-radius: 4px;
+    background: #fff;
+    color: var(--text-on-light);
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    min-height: var(--touch-min);
+}
+
+.cardDeck__form-group textarea {
+    min-height: 5.5rem;
+    resize: vertical;
+}
+
+.cardDeck__form-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: var(--touch-min);
+    margin-top: 0.25rem;
+    padding: 0.55rem 0.9rem;
+    border: none;
+    border-radius: 6px;
+    background: var(--nav-blue);
+    color: #fff;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 0.75rem;
+    cursor: pointer;
+}
+
+.cardDeck__form-status {
+    margin: 0.75rem 0 0;
+    font-family: var(--font-ui);
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: #5c5340;
+}
+
+.cardDeck__form-status--success {
+    color: #2d6a2d;
+}
+
+.cardDeck__form-status--error {
+    color: #9a3030;
+}
+
+.cardDeck__form-status--loading {
+    color: #5c5340;
+}
+
+.cardDeck__confirm-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem 0.75rem;
+}
+
+.cardDeck__confirm-check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 1rem;
+    border-radius: 50%;
+    background: var(--nav-blue);
+    color: #fff;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.cardDeck__confirm-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    color: var(--text-on-light);
+}
+
+.cardDeck__confirm-lead {
+    font-family: var(--font-ui);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    margin: 0 0 1.25rem;
+    color: #5c5340;
+    max-width: 260px;
+}
+
+.cardDeck__confirm-back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--touch-min);
+    padding: 0.45rem 1rem;
+    border: none;
+    border-radius: 6px;
+    background: var(--nav-blue);
+    color: #fff;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 0.72rem;
+    cursor: pointer;
 }
 
 @media (max-width: 600px) {

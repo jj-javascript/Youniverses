@@ -83,6 +83,62 @@
             });
     }
 
+    function submitToSanity(name, message) {
+        var submitUrl = SITE_CONFIG.testimonialSubmitUrl || '/api/testimonial-submit';
+
+        return fetch(submitUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: name,
+                message: message,
+                botcheck: false,
+            }),
+        }).then(function (res) {
+            return res.json().then(function (data) {
+                if (!res.ok) {
+                    throw new Error(data.error || 'Sanity submit failed');
+                }
+                return data;
+            });
+        });
+    }
+
+    function submitTestimonial(name, message) {
+        var accessKey = SITE_CONFIG.web3forms.accessKey;
+
+        if (!accessKey || accessKey === 'YOUR_WEB3FORMS_ACCESS_KEY') {
+            return Promise.reject(
+                new Error(
+                    'Form not yet configured. Update js/config.js with your Web3Forms access key.'
+                )
+            );
+        }
+
+        var formData = new FormData();
+        formData.append('access_key', accessKey);
+        formData.append('subject', 'New Youniverse Testimonial');
+        formData.append('name', name);
+        formData.append('message', message);
+        formData.append('botcheck', '');
+
+        return Promise.all([
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formData,
+            }).then(function (res) {
+                return res.json();
+            }),
+            submitToSanity(name, message),
+        ]).then(function (results) {
+            var web3formsData = results[0];
+            if (!web3formsData.success) {
+                throw new Error(web3formsData.message || 'Submission failed');
+            }
+            return results;
+        });
+    }
+
     function bindForm() {
         var form = document.querySelector('.testimonial-form');
         if (!form) return;
@@ -91,48 +147,29 @@
             e.preventDefault();
 
             var status = form.querySelector('.form-status');
-            var accessKey = SITE_CONFIG.web3forms.accessKey;
-
-            if (!accessKey || accessKey === 'YOUR_WEB3FORMS_ACCESS_KEY') {
-                if (status) {
-                    status.textContent =
-                        'Form not yet configured. Update js/config.js with your Web3Forms access key.';
-                    status.className = 'form-status form-status--error';
-                }
-                return;
-            }
+            var name = form.querySelector('#name').value;
+            var message = form.querySelector('#quote').value;
 
             if (status) {
                 status.textContent = 'Sending…';
                 status.className = 'form-status form-status--loading';
             }
 
-            var formData = new FormData(form);
-            formData.append('access_key', accessKey);
-
-            fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                body: formData,
-            })
-                .then(function (res) {
-                    return res.json();
-                })
-                .then(function (data) {
-                    if (data.success) {
-                        form.reset();
-                        if (status) {
-                            status.textContent =
-                                'Thank you! Your testimonial has been submitted for review.';
-                            status.className = 'form-status form-status--success';
-                        }
-                    } else {
-                        throw new Error(data.message || 'Submission failed');
-                    }
-                })
-                .catch(function () {
+            submitTestimonial(name, message)
+                .then(function () {
+                    form.reset();
                     if (status) {
                         status.textContent =
-                            'Something went wrong. Please try again later.';
+                            'Thank you! Your testimonial has been submitted for review.';
+                        status.className = 'form-status form-status--success';
+                    }
+                })
+                .catch(function (err) {
+                    if (status) {
+                        status.textContent =
+                            err && err.message && err.message.indexOf('configured') !== -1
+                                ? err.message
+                                : 'Something went wrong. Please try again later.';
                         status.className = 'form-status form-status--error';
                     }
                 });
@@ -143,6 +180,7 @@
         cache: [],
         fetch: fetchTestimonials,
         escapeHtml: escapeHtml,
+        submit: submitTestimonial,
     };
 
     function init() {
