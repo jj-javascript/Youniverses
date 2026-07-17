@@ -113,10 +113,6 @@ async function createSanityDraft(name, quote, source) {
     throw new Error('SANITY_WRITE_TOKEN is not configured');
   }
 
-  // #region agent log
-  fetch('http://127.0.0.1:7285/ingest/03fcad85-44a8-42f1-85e5-933424e51aaf',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'15eed1'},body:JSON.stringify({sessionId:'15eed1',runId:'run1',hypothesisId:'H1-H4',location:'testimonial-submit.mjs:115',message:'Sanity token shape + target URL (no secret)',data:{tokenLength:token.length,startsWithSk:token.startsWith('sk'),hasWhitespace:/\s/.test(token),hasQuotes:/["']/.test(token),mutateUrl:sanityMutateUrl(),projectId:SANITY_PROJECT_ID,dataset:SANITY_DATASET,apiVersion:SANITY_API_VERSION},timestamp:Date.now()})}).catch(()=>{});
-  // #endregion
-
   const mutation = {
     mutations: [
       {
@@ -143,10 +139,6 @@ async function createSanityDraft(name, quote, source) {
   });
 
   const result = await response.json().catch(() => ({}));
-
-  // #region agent log
-  fetch('http://127.0.0.1:7285/ingest/03fcad85-44a8-42f1-85e5-933424e51aaf',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'15eed1'},body:JSON.stringify({sessionId:'15eed1',runId:'run1',hypothesisId:'H1-H4',location:'testimonial-submit.mjs:143',message:'Sanity mutate response',data:{ok:response.ok,status:response.status,errorCode:result&&result.errorCode,sanityMessage:result&&result.message},timestamp:Date.now()})}).catch(()=>{});
-  // #endregion
 
   if (!response.ok) {
     const error = new Error('Sanity mutate failed: ' + response.status);
